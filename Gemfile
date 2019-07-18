@@ -35,6 +35,12 @@ gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
 # Use Bcrypt for Password
 gem 'bcrypt', '~> 3.1', '>= 3.1.13'
 
+# Use Omniauth Facebook plugin
+gem 'omniauth-facebook', '~> 5.0'
+
+# Use Omniauth Google plugin
+gem 'omniauth-google-oauth2', '~> 0.7.0'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

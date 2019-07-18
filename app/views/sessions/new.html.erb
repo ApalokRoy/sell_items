@@ -14,6 +14,12 @@
       <%= f.submit "Log in", class: "btn btn-primary" %>
     <% end %>
 
+    <section class= "social-login">
+      <h4> OR </h4>
+      <%= link_to image_tag("facebook-login-button", size: "160x100", alt: "Facebook Login"), "auth/facebook" %>
+      <%= link_to image_tag("google-login-button", size: "160x50", alt: "Google Login"), "auth/google_oauth2" %>
+    </section>
+
     <p>New user? <%= link_to "Sign up now!", signup_path %></p>
   </div>
 </div>
