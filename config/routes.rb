@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback',   to: 'sessions#sociallogin', as: 'social_login'
   delete '/logout',  to: 'sessions#destroy'
 
-  resources :users
+  resources :users, except: [:destroy, :index]
 
 end
