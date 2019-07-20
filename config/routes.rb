@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'static_pages#home'
+  root 'categories#index'
   get '/help', to: 'static_pages#help'
   get '/about', to: 'static_pages#about'
   get '/contact', to: 'static_pages#contact'
@@ -14,6 +14,12 @@ Rails.application.routes.draw do
 
   resources :conversations, only: [:create, :index] do
     resources :messages, only: [:new, :create, :index]
+  end
+
+  resources :categories, only: [:index, :show]
+  
+  namespace :admin do
+    resources :categories, except: [:index, :show]
   end
 
 end
