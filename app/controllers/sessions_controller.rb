@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   before_action :set_auth
+
   def new
   end
 

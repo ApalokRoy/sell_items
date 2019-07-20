@@ -41,6 +41,9 @@ gem 'omniauth-facebook', '~> 5.0'
 # Use Omniauth Google plugin
 gem 'omniauth-google-oauth2', '~> 0.7.0'
 
+# Used for debugger console
+gem 'pry', '~> 0.12.2'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -54,7 +57,6 @@ gem 'omniauth-google-oauth2', '~> 0.7.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
-
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

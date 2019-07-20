@@ -1,0 +1,37 @@
+<% provide(:title, "Message Box") %>
+<div>
+  <%= link_to "Back to Inbox", conversations_path %>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h3><%=" #{@user.name} ( #{pluralize(@messages.size, "message")} )" %></h3>
+      <hr>
+      <div>
+        <%= form_for [@conversation, @message] do |f| %>
+          <%= f.text_area :message_body, class: "form-control" %>
+          <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
+          <%= f.submit "Send Reply", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+      <div>
+        <% @messages.each do |message| %>
+          <% if message.message_body %>
+            <% user = User.find(message.user_id) %>
+            <div>
+              <div>
+                <div>
+                  <strong><%= user.name %> </strong>
+                  <%= message.message_time %>
+                </div>
+                <div>
+                  <div>
+                    <%= message.message_body %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

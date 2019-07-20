@@ -12,4 +12,8 @@ Rails.application.routes.draw do
 
   resources :users, except: [:destroy, :index]
 
+  resources :conversations, only: [:create, :index] do
+    resources :messages, only: [:new, :create, :index]
+  end
+
 end

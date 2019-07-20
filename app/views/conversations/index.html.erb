@@ -1,0 +1,38 @@
+<% provide(:title, "Conversation") %>
+<h1>My Inbox</h1>
+<div>
+  <div>
+    <div>
+      <h1>All Conversations:</h1>
+      <div>
+        <div>
+          <% @conversations.each do |conversation| %>
+            <% if conversation.sender_id == current_user.id || conversation.receiver_id == current_user.id %>
+              <% if conversation.sender_id == current_user.id %>
+                <% receiver = User.find(conversation.receiver_id) %>
+              <% else %>
+                <% receiver = User.find(conversation.sender_id) %>
+              <% end %>
+            <h3><%= link_to receiver.name, conversation_messages_path(conversation)%></h3>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div>
+        <h1>All Users:</h1>
+        <% @users.each do |user| %>
+          <% if user != current_user %>
+            <div>
+              <h3><%= link_to user.name,
+                  conversations_path(conversation: { sender_id: current_user.id,
+                  receiver_id: user.id}), method: "post"%>
+              </h3>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
