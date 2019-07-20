@@ -4,8 +4,9 @@
   <div>
     <div>
       <h1>All Conversations:</h1>
+      <%= will_paginate @conversations, param_name: 'conversations_page' %>
       <div>
-        <div>
+        <div class="users">
           <% @conversations.each do |conversation| %>
             <% if conversation.sender_id == current_user.id || conversation.receiver_id == current_user.id %>
               <% if conversation.sender_id == current_user.id %>
@@ -18,13 +19,15 @@
           <% end %>
         </div>
       </div>
+      <%= will_paginate @conversations, param_name: 'conversations_page' %>
     </div>
     <div>
       <div>
         <h1>All Users:</h1>
+        <%= will_paginate @users, param_name: 'users_page' %>
         <% @users.each do |user| %>
           <% if user != current_user %>
-            <div>
+            <div class="users">
               <h3><%= link_to user.name,
                   conversations_path(conversation: { sender_id: current_user.id,
                   receiver_id: user.id}), method: "post"%>
@@ -32,6 +35,7 @@
             </div>
           <% end %>
         <% end %>
+        <%= will_paginate @users, param_name: 'users_page' %>
       </div>
     </div>
   </div>

@@ -2,8 +2,9 @@ class MessagesController < ApplicationController
   before_action :find_conversation
 
   def index
-    @messages = @conversation.messages.ordering
+    @messages = @conversation.messages.ordering.paginate(page: params[:messages_page], per_page: 20)
     @message = @conversation.messages.new
+    @conversation_count = @messages.size
 
     if @conversation.sender_id == current_user.id
       @user = User.find_by(id: @conversation.receiver_id)

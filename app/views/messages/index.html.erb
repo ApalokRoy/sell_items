@@ -3,7 +3,7 @@
   <%= link_to "Back to Inbox", conversations_path %>
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <h3><%=" #{@user.name} ( #{pluralize(@messages.size, "message")} )" %></h3>
+      <h3><%=" #{@user.name} (#{pluralize(@conversation_count, "message")})" %></h3>
       <hr>
       <div>
         <%= form_for [@conversation, @message] do |f| %>
@@ -13,6 +13,7 @@
         <% end %>
       </div>
       <div>
+        <%= will_paginate @messages, param_name: 'messages_page' %>
         <% @messages.each do |message| %>
           <% if message.message_body %>
             <% user = User.find(message.user_id) %>
@@ -31,6 +32,7 @@
             </div>
           <% end %>
         <% end %>
+        <%= will_paginate @messages, param_name: 'messages_page' %>
       </div>
     </div>
   </div>

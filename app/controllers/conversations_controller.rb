@@ -2,8 +2,8 @@ class ConversationsController < ApplicationController
   before_action :logged_in_user
 
   def index
-    @users = User.all
-    @conversations = Conversation.all
+    @users = User.paginate(page: params[:users_page], per_page: 5)
+    @conversations = Conversation.paginate(page: params[:conversations_page], per_page: 5)
   end
 
   def create
