@@ -1,9 +1,31 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="col-md-4">
+  <aside class="col-md-8 col-md-offset-2">
     <section class="user_info">
-      <h1><%= @user.name %></h1>
-      <h4><%= @user.email %></h4>
+      <h1>Name: <%= @user.name %></h1>
+      <h4>Email ID: <%= @user.email %></h4>
+      <% if @posts.count > 0 %>
+        <h1><%="You have posted #{pluralize(@posts.count, "advertisement")}."%></h1>
+        <hr>
+        <table>
+          <tr>
+            <td><h4>Title</h4></td>
+            <td><h4>Category</h4></td>
+            <td colspan="2"><h4>Links</h4></td>
+          <tr>
+          <% @posts.each do |post| %>
+            <tr>
+              <td><strong><%= link_to post.name, user_post_path(@user, post) %></strong></td>
+              <td><%= post.category.name.titlecase %></td>
+              <td><%= link_to "Edit Advertisement" , user_post_path(@user, post) %></td>
+              <td><%= link_to "Delete Advertisement" , user_post_path(@user, post),
+                      method: :delete, data: { confirm: "Are You sure?" } %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
+      <br><br>
+      <%= link_to "New Advertisement" , new_user_post_path(@user) %>
     </section>
   </aside>
 </div>
