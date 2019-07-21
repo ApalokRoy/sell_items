@@ -9,7 +9,7 @@ class Admin::CategoriesController < ApplicationController
     @category = Category.new(category_params)
     if @category.save
       flash[:success] = "New Category is Created Sucessfully!"
-      redirect_to category_path(category)
+      redirect_to category_path(@category)
     else
       render 'new'
     end
@@ -23,7 +23,7 @@ class Admin::CategoriesController < ApplicationController
     @category = Category.find(params[:id])
     if @category.update_attributes(category_params)
       flash[:success] = "Category Information is updated Sucessfully!"
-      redirect_to category_path
+      redirect_to category_path(@category)
     else
       render 'edit'
     end
