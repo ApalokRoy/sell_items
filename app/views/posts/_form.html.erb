@@ -1,13 +1,13 @@
-<%= form_for([@user, @post]) do |f| %>
+<%= form_for([@user, @post], html:{ multipart: true }) do |f| %>
     <%= render 'shared/error_messages', object: @post %>
-    
+
     <%= f.label :name %>
     <%= f.text_field :name, class: 'form-control' %>
 
     <%= f.label :category_id %>
     <%= f.collection_select :category_id, Category.all.ordering,
         :id, :name, prompt: 'Select Category' %>
-    
+
     <%= f.label :description %>
     <%= f.text_area :description, class: 'form-control' %>
 
@@ -18,6 +18,20 @@
 
     <%= f.label :city %>
     <%= f.text_field :city, class: 'form-control' %>
+
+    <%= f.fields_for :asset do |t| %>
+      <%= t.label :image %>
+      <% if @post.assets.present? %>
+        <% @post.assets.each do |asset| %>
+          <%= image_tag asset.image.url(:thumb) %>
+        <% end %>
+        <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
+      <% else %>
+        <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
+        <%= f.hidden_field :image_cache %>
+      <% end %>
+        <%#= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
+    <% end %>
 
     <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>

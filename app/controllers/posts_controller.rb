@@ -5,11 +5,16 @@ class PostsController < ApplicationController
 
   def new
     @post = @user.posts.new
+    @asset = @post.assets.new
   end
 
   def create
     @post = @user.posts.new(post_params)
     if @post.save
+      params[:post][:asset]['image'].each do |img|
+        @photo = @post.assets.create!(:image => img)
+      end
+
       flash[:success] = "#{@post.name} is Created Successfully!"
       redirect_to user_post_path(@user, @post)
     else
@@ -18,10 +23,15 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @post.assets.build unless @post.assets.any?
   end
 
   def update
     if @post.update_attributes(post_params)
+      params[:post][:asset]['image'].each do |img|
+        @photo = @post.assets.create!(:image => img)
+      end
+
       flash[:success] = "#{@post.name} is Updated Successfully!"
       redirect_to user_post_path(@user, @post)
     else
@@ -30,6 +40,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    @assets = @post.assets
   end
 
   def destroy
@@ -43,7 +54,7 @@ class PostsController < ApplicationController
     # Permiseble parameters.
     def post_params
       params.require(:post).permit(:name, :category_id, :description,
-                                    :user_id, :phone_number, :city)
+                                  :user_id, :phone_number, :city, asset_attributes: [:image])
     end
   
     # Before filters

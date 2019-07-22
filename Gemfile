@@ -48,6 +48,9 @@ gem 'pry', '~> 0.12.2'
 gem 'will_paginate', '~> 3.1', '>= 3.1.7'
 gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.2'
 
+# Paperclip is used for file upload
+gem 'paperclip', '~> 6.1'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

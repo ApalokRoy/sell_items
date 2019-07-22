@@ -3,6 +3,9 @@ class Post < ApplicationRecord
   belongs_to :category
   belongs_to :approved, class_name: "User", foreign_key: :approved_id, optional: true
 
+  has_many :assets, dependent: :destroy
+  accepts_nested_attributes_for :assets, allow_destroy: true
+
   VALID_PHONE_REGEX = /((\+*)((0[ -]+)*|(91 )*)(\d{12}+|\d{10}+))|\d{5}([- ]*)\d{6}/
 
   validates :name, presence: true, length: { minimum: 5 }

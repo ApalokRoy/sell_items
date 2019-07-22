@@ -14,7 +14,18 @@
       </h4>
       <h4>Contact Information: <%= @post.phone_number %></h4>
       <h4>City: <%= @post.city %></h4>
-      <%= link_to "Edit Advertisement", user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id %>
+      <h3>Images</h3>
+      <div>
+        <% @assets.each do |asset|  %>
+          <div>
+            <%= link_to image_url(asset.image.url) do%>
+              <%= image_tag asset.image.url(:thumb) %>
+            <% end %>
+            <h4><%= asset.image_file_name %></h4>
+          </div>
+        <% end %>
+      </div>
+      <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id %>
       <%= link_to "Interested", "#", class: "btn btn-primary"  if current_user && current_user.id != @post.user_id %>
    </section>
   </aside>
