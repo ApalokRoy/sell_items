@@ -17,7 +17,7 @@
             <tr>
               <td><strong><%= link_to post.name, user_post_path(@user, post) %></strong></td>
               <td><%= post.category.name.titlecase %></td>
-              <td><%= link_to "Edit Advertisement" , user_post_path(@user, post) %></td>
+              <td><%= link_to "Edit Advertisement" , edit_user_post_path(@user, post) %></td>
               <td><%= link_to "Delete Advertisement" , user_post_path(@user, post),
                       method: :delete, data: { confirm: "Are You sure?" } %></td>
             </tr>

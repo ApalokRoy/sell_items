@@ -11,8 +11,10 @@ class PostsController < ApplicationController
   def create
     @post = @user.posts.new(post_params)
     if @post.save
-      params[:post][:asset]['image'].each do |img|
-        @photo = @post.assets.create!(:image => img)
+      if params[:post][:asset].present? 
+        params[:post][:asset]['image'].each do |img|
+          @photo = @post.assets.create!(:image => img)
+        end
       end
 
       flash[:success] = "#{@post.name} is Created Successfully!"
@@ -28,8 +30,10 @@ class PostsController < ApplicationController
 
   def update
     if @post.update_attributes(post_params)
-      params[:post][:asset]['image'].each do |img|
-        @photo = @post.assets.create!(:image => img)
+      if params[:post][:asset].present? 
+        params[:post][:asset]['image'].each do |img|
+          @photo = @post.assets.create!(:image => img)
+        end
       end
 
       flash[:success] = "#{@post.name} is Updated Successfully!"

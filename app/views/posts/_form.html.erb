@@ -21,16 +21,16 @@
 
     <%= f.fields_for :asset do |t| %>
       <%= t.label :image %>
-      <% if @post.assets.present? %>
+      <% if @post.assets.size > 1 %>
         <% @post.assets.each do |asset| %>
-          <%= image_tag asset.image.url(:thumb) %>
+          <div>
+            <%= image_tag asset.image.url(:thumb) %>
+          </div>
         <% end %>
         <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
       <% else %>
         <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
-        <%= f.hidden_field :image_cache %>
       <% end %>
-        <%#= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
     <% end %>
 
     <%= f.submit yield(:button_text), class: "btn btn-primary" %>

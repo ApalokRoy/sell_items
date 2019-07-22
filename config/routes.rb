@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   resources :users, except: [:destroy, :index] do
     resources :posts, except: :index  do
-      resources :assets
+      resources :assets, only: :destroy
     end
   end
 
