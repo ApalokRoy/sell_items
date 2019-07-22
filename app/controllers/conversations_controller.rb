@@ -12,8 +12,8 @@ class ConversationsController < ApplicationController
     else
       @conversation = Conversation.new(conversation_params)
       @conversation.save
-
     end
+    
     redirect_to conversation_messages_path(@conversation)
   end
 
