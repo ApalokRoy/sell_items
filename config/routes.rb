@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   resources :users, except: [:destroy, :index] do
     resources :posts, except: :index  do
+      member do
+        get 'sendmail', as: 'send_mail' 
+      end
       resources :assets, only: :destroy
     end
   end

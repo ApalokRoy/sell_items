@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <h1>Notification email for <%= @post.name %></h1>
+    <p> 
+      This email was sent out to you, because you have posted an advertisement at <%= @url %>.
+      <b><%= @sender.name %></b> has shown interest in your advertisement, you can contact him 
+      at <b><%= @sender.email %></b>, don't forget to mention <b>Buy & Sell.com</b> while contacting him.
+    </p>
+    <p>
+      Warm Regards,
+      Buy & Sell.com
+    </p>
+  </body>
+</html>

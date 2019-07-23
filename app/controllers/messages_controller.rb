@@ -32,6 +32,6 @@ class MessagesController < ApplicationController
 
     # Find Conversation
     def find_conversation
-        @conversation = Conversation.find(params[:conversation_id])
+      @conversation = Conversation.find(params[:conversation_id])
     end
 end

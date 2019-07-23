@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
-  before_action :authenticate, except: [:show]
+  before_action :authenticate, except: [:show, :sendmail]
   before_action :find_user
-  before_action :find_post, only: [:edit, :update, :show, :destroy]
+  before_action :find_post, only: [:edit, :update, :show, :destroy, :sendmail]
 
   def new
     @post = @user.posts.new
@@ -53,7 +53,16 @@ class PostsController < ApplicationController
     redirect_to user_path(@user)
   end
 
-  
+  def sendmail
+    logged_in_user
+    find_user
+
+    if @post.user_id != current_user.id
+      PostMailer.send_email(@post, current_user).deliver_later
+      redirect_to user_post_path(@user, @post)
+    end
+  end
+
   private
     # Permiseble parameters.
     def post_params

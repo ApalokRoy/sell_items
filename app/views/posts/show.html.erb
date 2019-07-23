@@ -30,7 +30,7 @@
         </div>
       <% end %>
       <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id %>
-      <%= link_to "Interested", "#", class: "btn btn-primary"  if current_user && current_user.id != @post.user_id %>
+      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary"  if current_user && current_user.id != @post.user_id %>
    </section>
   </aside>
 </div>
