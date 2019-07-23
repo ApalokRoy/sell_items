@@ -13,4 +13,7 @@ class Post < ApplicationRecord
   validates :phone_number, presence: true, length: { minimum: 10, maximum: 15 },
                     format: { with: VALID_PHONE_REGEX }
   validates :user_id, :category_id, :city, presence: true
+
+  scope :yet_to_be_approved, ->{ where("approved_id is ?", nil) }
+  scope :approved, ->{ where("approved_id is not ?", nil) }
 end

@@ -1,0 +1,21 @@
+<% provide(:title, "Post Approval") %>
+<div>
+  <h1>Pending Posts</h1>
+  <div>
+  <table class="table table-striped">
+    <tr>
+      <td><h4>Title</h4></td>
+      <td><h4>Posted By</h4></td>
+      <td colspan=2><h4>Links</h4></td>
+    <tr>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><strong><%= link_to post.name, user_post_path(post.user_id, post) %></strong></td>
+        <td><%= post.user.name.titlecase %></td>
+        <td><%= link_to "Approve" , status_admin_post_path(post), method: :post %></td>
+        <td><%= link_to "Reject" , user_post_path(post.user_id, post),
+                method: :delete, data: { confirm: "Are You sure?" } %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

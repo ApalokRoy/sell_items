@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate, except: [:show, :sendmail]
+  before_action :authenticate, except: [:show, :sendmail, :destroy]
   before_action :find_user
   before_action :find_post, only: [:edit, :update, :show, :destroy, :sendmail]
 
@@ -48,14 +48,16 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    logged_in_user
+    redirect_to root_url unless current_user?(@user) || current_user.admin?
+    session[:return_to] = request.referer
     Post.find(params[:id]).destroy
     flash[:success] = "Advertisement has been deleted Sucessfully!"
-    redirect_to user_path(@user)
+    redirect_to session[:return_to]
   end
 
   def sendmail
     logged_in_user
-    find_user
 
     if @post.user_id != current_user.id
       PostMailer.send_email(@post, current_user).deliver_later

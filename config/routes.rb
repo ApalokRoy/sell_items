@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       member do
         get 'sendmail', as: 'send_mail' 
       end
+
       resources :assets, only: :destroy
     end
   end
@@ -27,6 +28,10 @@ Rails.application.routes.draw do
   
   namespace :admin do
     resources :categories, except: [:index, :show]
+    resources :posts, only: [] do
+      get 'pending', on: :collection 
+      post 'status', on: :member
+    end
   end
 
 end
