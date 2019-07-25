@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :authenticate, except: [:show, :sendmail, :destroy]
-  before_action :find_user
+  before_action :authenticate, except: [:show, :sendmail, :destroy, :search]
+  before_action :find_user, except: :search
   before_action :find_post, only: [:edit, :update, :show, :destroy, :sendmail]
 
   def new
@@ -62,6 +62,23 @@ class PostsController < ApplicationController
     if @post.user_id != current_user.id
       PostMailer.send_email(@post, current_user).deliver_later
       redirect_to user_post_path(@user, @post)
+    end
+  end
+
+  def search
+    if params[:search_posts].presence
+      name = params[:search_posts][:name].presence && params[:search_posts][:name]
+      city = params[:search_posts][:city].presence && params[:search_posts][:city]
+      if name.present? && city.present?
+        @intermediatePosts = Post.search_approved(city)
+        @posts = @intermediatePosts.search_approved(city)
+      elsif city.present?
+        @posts = Post.search_approved(city)
+      else
+        @posts = Post.search_approved(name)
+      end
+      binding.pry
+      
     end
   end
 
