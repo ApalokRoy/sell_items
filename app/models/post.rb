@@ -38,17 +38,17 @@ class Post < ApplicationRecord
         queries << { "match": { "city": query[key] } }
       end
     end
-
-    queries << {
-      "exists": {
-        "field": "approved_id"
-      } 
-    }
-    
+   
     self.search({
       "query": {
         "bool": {
-          "must": queries
+          "should": queries,
+          "minimum_should_match": 1,
+          "must": {
+            "exists": {
+             "field": "approved_id"
+            }     
+          }
         }
       }
     })
