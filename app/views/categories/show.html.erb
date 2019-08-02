@@ -6,16 +6,20 @@
       <% if @posts.count > 0 %>
         <h1><%="We have #{pluralize(@posts.count, "advertisement")} under this category."%></h1>
         <hr>
-        <div>
+        <div class="row">
           <%= will_paginate @posts, param_name: 'posts_page' %>
-            <ul class="users">
-              <% @posts.each do |post| %>
-                <li>
-                  <strong><%= post.name.titlecase %></strong>
-                  <%= link_to "Show Advertisement", user_post_path(post.user_id, post.id) %>
-                </li>
-              <% end %>
-            </ul>
+            <% @posts.each do |post| %>
+              <div class="col-md-3">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><%= post.name.titlecase %></h3>
+                  </div>
+                  <div class="panel-body">
+                    <%= link_to "Show Advertisement", user_post_path(post.user_id, post.id) %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           <%= will_paginate @posts, param_name: 'posts_page' %>
         </div>
       <% end %>

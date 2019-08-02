@@ -1,21 +1,39 @@
 <% provide(:title, "Home") %>
 <div>
+  <div class = "search">
+    <%= form_for :search_posts, url: search_posts_path, method: :get do |f| %>
+      <div class = "col-md-5">
+        <%= f.text_field :name, placeholder: "Search By Name" %>
+      </div>
+      <div class = "col-md-3 col-md-offset-2">
+        <%= f.text_field :city, placeholder: "Search By Location" %>
+      </div>
+      <div class = "col-md-1 col-md-offset-1">
+        <%= f.submit "Search", class: 'btn btn-success' %>
+      </div>
+    <% end %>
+  </div>
+  <hr>
   <h1>All Categories</h1>
-  <div>
+  <div class="row">
     <%= will_paginate @categories, param_name: 'categories_page' %>
-      <ul class="users">
-        <% @categories.each do |category| %>
-          <li>
-            <strong><%= category.name.titlecase %></strong>
-            <%= link_to "Show Category", category_path(category) %>
-            <% if current_user && current_user.admin? %>
-              <%= link_to "Edit Category", edit_admin_category_path(category) %>
-              <%= link_to "Delete Category", admin_category_path(category),
-                  method: :delete, data: { confirm: "Are You sure?" } %>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+      <% @categories.each do |category| %>
+        <div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><%= category.name.titlecase %></h3>
+            </div>
+            <div class="panel-body">
+              <%= link_to "Show Category", category_path(category) %>
+              <% if current_user && current_user.admin? %>
+                <%= link_to "Edit Category", edit_admin_category_path(category) %>
+                <%= link_to "Delete Category", admin_category_path(category),
+                    method: :delete, data: { confirm: "Are You sure?" } %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     <%= will_paginate @categories, param_name: 'categories_page' %>
   </div>
   <%= link_to "Create Category", new_admin_category_path if current_user && current_user.admin? %>

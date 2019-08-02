@@ -1,4 +1,7 @@
 class Post < ApplicationRecord
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  
   belongs_to :user, class_name: "User", foreign_key: :user_id
   belongs_to :category
   belongs_to :approved, class_name: "User", foreign_key: :approved_id, optional: true
@@ -14,6 +17,40 @@ class Post < ApplicationRecord
                     format: { with: VALID_PHONE_REGEX }
   validates :user_id, :category_id, :city, presence: true
 
-  scope :yet_to_be_approved, ->{ where("approved_id is ?", nil) }
-  scope :approved, ->{ where("approved_id is not ?", nil) }
+  scope :yet_to_be_approved, ->{ where(approved_id: nil) }
+  scope :approved, ->{ where.not(approved_id: nil) }
+
+  settings do
+    mappings dynamic: false do
+      indexes :name, type: :text, analyzer: :english
+      indexes :city, type: :text, analyzer: :english
+      indexes :approved_id, type: :integer
+    end
+  end
+
+  def self.search_approved(query)
+    queries = []
+    query.keys.each do |key|
+      case key
+      when "name"
+        queries << { "match": { "name": query[key] } }
+      when "city"
+        queries << { "match": { "city": query[key] } }
+      end
+    end
+
+    queries << {
+      "exists": {
+        "field": "approved_id"
+      } 
+    }
+    
+    self.search({
+      "query": {
+        "bool": {
+          "must": queries
+        }
+      }
+    })
+  end
 end
