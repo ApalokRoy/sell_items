@@ -29,21 +29,26 @@ class Post < ApplicationRecord
   end
 
   def self.search_approved(query)
+    queries = []
+    query.keys.each do |key|
+      case key
+      when "name"
+        queries << { "match": { "name": query[key] } }
+      when "city"
+        queries << { "match": { "city": query[key] } }
+      end
+    end
+
+    queries << {
+      "exists": {
+        "field": "approved_id"
+      } 
+    }
+    
     self.search({
-      query: {
-        bool: {
-          must: [
-          {
-            multi_match: {
-              query: query,
-              fields: [:name, :city]
-            }
-          },
-          {
-            match: {
-              approved_id: true
-            }
-          }]
+      "query": {
+        "bool": {
+          "must": queries
         }
       }
     })

@@ -67,18 +67,7 @@ class PostsController < ApplicationController
 
   def search
     if params[:search_posts].presence
-      name = params[:search_posts][:name].presence && params[:search_posts][:name]
-      city = params[:search_posts][:city].presence && params[:search_posts][:city]
-      if name.present? && city.present?
-        @intermediatePosts = Post.search_approved(city)
-        @posts = @intermediatePosts.search_approved(city)
-      elsif city.present?
-        @posts = Post.search_approved(city)
-      else
-        @posts = Post.search_approved(name)
-      end
-      binding.pry
-      
+      @posts = Post.search_approved(params[:search_posts])
     end
   end
 
