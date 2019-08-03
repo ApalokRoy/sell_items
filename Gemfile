@@ -83,6 +83,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Send Sample emails
   gem 'letter_opener', '~> 1.7'
+  # Query Optimization
+  gem 'bullet'
 end
 
 group :test do
