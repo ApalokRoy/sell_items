@@ -100,6 +100,8 @@ GEM
       multi_json
     erubi (1.8.0)
     execjs (2.7.0)
+    faker (2.1.0)
+      i18n (>= 0.7)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     ffi (1.11.1)
@@ -286,6 +288,7 @@ DEPENDENCIES
   elasticsearch-model (~> 6.0)
   elasticsearch-rails (~> 6.0)
   execjs
+  faker (~> 2.1)
   jbuilder (~> 2.5)
   jquery-rails
   letter_opener (~> 1.7)

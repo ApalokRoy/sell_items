@@ -85,6 +85,8 @@ group :development do
   gem 'letter_opener', '~> 1.7'
   # Query Optimization
   gem 'bullet'
+  # Sample Data Creation
+  gem 'faker', '~> 2.1'
 end
 
 group :test do
