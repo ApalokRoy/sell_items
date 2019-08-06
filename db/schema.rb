@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_22_113414) do
+ActiveRecord::Schema.define(version: 2019_08_06_062837) do
 
   create_table "assets", force: :cascade do |t|
-    t.integer "post_id"
+    t.integer "post_id", null: false
     t.string "image_file_name"
     t.string "image_content_type"
-    t.bigint "image_file_size"
+    t.integer "image_file_size"
     t.datetime "image_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2019_07_22_113414) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 50, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
@@ -36,13 +36,14 @@ ActiveRecord::Schema.define(version: 2019_07_22_113414) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_conversations_on_receiver_id"
+    t.index ["sender_id", "receiver_id"], name: "index_conversations_on_sender_id_and_receiver_id", unique: true
     t.index ["sender_id"], name: "index_conversations_on_sender_id"
   end
 
   create_table "messages", force: :cascade do |t|
-    t.text "message_body"
-    t.integer "conversation_id"
-    t.integer "user_id"
+    t.text "message_body", null: false
+    t.integer "conversation_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
@@ -50,12 +51,12 @@ ActiveRecord::Schema.define(version: 2019_07_22_113414) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "name"
-    t.integer "category_id"
-    t.string "description"
-    t.integer "user_id"
-    t.string "phone_number"
-    t.string "city"
+    t.string "name", null: false
+    t.integer "category_id", null: false
+    t.string "description", null: false
+    t.integer "user_id", null: false
+    t.string "phone_number", limit: 15, null: false
+    t.string "city", null: false
     t.integer "approved_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -65,9 +66,9 @@ ActiveRecord::Schema.define(version: 2019_07_22_113414) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "password_digest"
+    t.string "name", limit: 50, null: false
+    t.string "email", limit: 100, null: false
+    t.string "password_digest", null: false
     t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
