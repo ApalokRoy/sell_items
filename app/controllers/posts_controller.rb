@@ -45,6 +45,7 @@ class PostsController < ApplicationController
 
   def show
     @assets = @post.assets
+    flash.now[:warning] = "Please Login to message or mail the owner!" unless current_user
   end
 
   def destroy

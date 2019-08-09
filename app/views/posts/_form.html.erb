@@ -5,8 +5,8 @@
     <%= f.text_field :name, class: 'form-control' %>
 
     <%= f.label :category_id %>
-    <%= f.collection_select :category_id, Category.all.ordering,
-        :id, :name, prompt: 'Select Category' %>
+    <%= f.select :category_id, options_for_select(Category.all.collect{|c| [c.name.titleize, c.id]}),
+        prompt: 'Select Category' %>
 
     <%= f.label :description %>
     <%= f.text_area :description, class: 'form-control' %>
