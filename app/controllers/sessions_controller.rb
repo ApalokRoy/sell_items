@@ -25,8 +25,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    session[:return_to] = request.referer
     log_out
-    redirect_to root_url
+    redirect_to session[:return_to]
   end
 
   private
