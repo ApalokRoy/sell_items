@@ -3,7 +3,6 @@
 <div>
   <div>
     <div>
-      <h1>All Conversations:</h1>
       <%= will_paginate @conversations, param_name: 'conversations_page' %>
       <div>
         <ul class="users">
@@ -14,30 +13,12 @@
               <% else %>
                 <% receiver = User.find(conversation.sender_id) %>
               <% end %>
-            <li><%= link_to receiver.name, conversation_messages_path(conversation)%></li>
+            <li><%= link_to "#{conversation.post.name+" - "+receiver.name}", conversation_messages_path(conversation)%></li>
             <% end %>
           <% end %>
         </ul>
       </div>
       <%= will_paginate @conversations, param_name: 'conversations_page' %>
-    </div>
-    <div>
-      <div>
-        <h1>All Users:</h1>
-        <%= will_paginate @users, param_name: 'users_page' %>
-          <ul class="users">
-            <% @users.each do |user| %>
-              <% if user != current_user %>
-                  <li><%= link_to user.name,
-                      conversations_path(conversation: { sender_id: current_user.id,
-                      receiver_id: user.id}), method: "post"%>
-                  </li>
-                
-              <% end %>
-            <% end %>
-          </ul>
-        <%= will_paginate @users, param_name: 'users_page' %>
-      </div>
     </div>
   </div>
 </div>

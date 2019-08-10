@@ -6,6 +6,7 @@ class Post < ApplicationRecord
   belongs_to :category
   belongs_to :approved, class_name: "User", foreign_key: :approved_id, optional: true
 
+  has_many :conversations, dependent: :destroy
   has_many :assets, dependent: :destroy
   accepts_nested_attributes_for :assets, allow_destroy: true
 

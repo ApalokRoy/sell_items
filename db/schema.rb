@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_062837) do
+ActiveRecord::Schema.define(version: 2019_07_22_113414) do
 
   create_table "assets", force: :cascade do |t|
     t.integer "post_id", null: false
     t.string "image_file_name"
     t.string "image_content_type"
-    t.integer "image_file_size"
+    t.bigint "image_file_size"
     t.datetime "image_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -33,10 +33,12 @@ ActiveRecord::Schema.define(version: 2019_08_06_062837) do
   create_table "conversations", force: :cascade do |t|
     t.integer "sender_id"
     t.integer "receiver_id"
+    t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_conversations_on_post_id"
     t.index ["receiver_id"], name: "index_conversations_on_receiver_id"
-    t.index ["sender_id", "receiver_id"], name: "index_conversations_on_sender_id_and_receiver_id", unique: true
+    t.index ["sender_id", "receiver_id", "post_id"], name: "index_conversations_on_sender_id_and_receiver_id_and_post_id", unique: true
     t.index ["sender_id"], name: "index_conversations_on_sender_id"
   end
 

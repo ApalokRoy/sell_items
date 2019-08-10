@@ -7,15 +7,15 @@
       <h4>Description: <%= @post.description %></h4>
       <h4>
         Posted By: <%= @post.user.name %>
-        <% if current_user && current_user.id != @post.user_id %>
+        <% if current_user && current_user.id != @post.user_id && @post.approved_id.present? %>
           <%= link_to "Message Me", conversations_path(conversation:
-              { sender_id: current_user.id, receiver_id: @post.user.id }), method: "post" %>
+              { sender_id: current_user.id, receiver_id: @post.user.id, post_id: @post.id }), method: "post" %>
         <% end %>
       </h4>
       <h4>Contact Information: <%= @post.phone_number %></h4>
       <h4>City: <%= @post.city %></h4>
       <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id%>
-      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary"  if current_user && current_user.id != @post.user_id %>
+      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary"  if current_user && current_user.id != @post.user_id && @post.approved_id.present? %>
     </section>
   </aside>
 </div>
