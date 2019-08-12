@@ -3,19 +3,29 @@
   <aside class="col-md-4">
     <section class="user_info">
       <h1>Title: <%= @post.name %></h1>
+      <% if @reviews.count > 0 %>
+        <p class="rating-golden">
+          <span>
+            <%= @reviews.average(:rating).round(1) %>
+            <span class="glyphicon glyphicon-star"></span>
+          </span>
+          <span><%= "(#{pluralize(@reviews.count, "Review")})" %></span>
+        </p>
+      <% end %>
       <h4>Category: <%= @post.category.name.titlecase %></h4>
       <h4>Description: <%= @post.description %></h4>
       <h4>
         Posted By: <%= @post.user.name %>
-        <% if current_user && current_user.id != @post.user_id && @post.approved_id.present? %>
+        <% if @post.approved_id.present? %>
           <%= link_to "Message Me", conversations_path(conversation:
-              { sender_id: current_user.id, receiver_id: @post.user.id, post_id: @post.id }), method: "post" %>
+              { receiver_id: @post.user.id, post_id: @post.id }), method: "post" %>
         <% end %>
       </h4>
       <h4>Contact Information: <%= @post.phone_number %></h4>
       <h4>City: <%= @post.city %></h4>
       <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id%>
-      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary"  if current_user && current_user.id != @post.user_id && @post.approved_id.present? %>
+      <br>
+      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary" if @post.approved_id.present? %>
     </section>
   </aside>
 </div>
@@ -41,5 +51,42 @@
         </div>
       </div>
     <% end %>
+  </div>
+<% end %>
+<div class="row">
+  <% if logged_in? && @post.approved_id.present? %>
+    <div class="col-md-6 add_review">
+      <%= render "review_form"%>
+    </div>
+  <% else %>
+    <h3>Login to post your review!</h3>
+  <% end %>
+</div>
+<% if @reviews.count > 0 && @post.approved_id.present? %>
+  <h3>Reviews (<%= @reviews.count %>)</h3>
+  <div class="row">
+    <%= will_paginate @reviews, param_name: 'reviews_page' %>
+    <% @reviews.each do |review|  %>
+      <div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <%= review.heading %>
+              <% review.rating.to_i.times do  %>
+                <span class="glyphicon glyphicon-star rating-golden"></span>
+              <% end %>
+              <% review.blank_stars.times do %>
+                <span class="glyphicon glyphicon-star-empty"></span>
+              <% end %>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <p>Reviewed by <%= review.user.name %></p>
+            <p><%= review.content %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <%= will_paginate @reviews, param_name: 'reviews_page' %>
   </div>
 <% end %>

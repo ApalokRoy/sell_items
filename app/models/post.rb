@@ -9,6 +9,7 @@ class Post < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :assets, dependent: :destroy
   accepts_nested_attributes_for :assets, allow_destroy: true
+  has_many :reviews, dependent: :destroy
 
   VALID_PHONE_REGEX = /((\+*)((0[ -]+)*|(91 )*)(\d{12}+|\d{10}+))|\d{5}([- ]*)\d{6}/
 

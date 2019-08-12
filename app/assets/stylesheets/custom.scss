@@ -183,3 +183,12 @@ input {
   margin-top: 15px;
   overflow: hidden;
 }
+
+/* Rating */
+.rating-golden
+{
+  color: gold;
+  span {
+    display: inline;
+  }
+}
