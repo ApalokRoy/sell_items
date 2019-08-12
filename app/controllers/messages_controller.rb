@@ -5,7 +5,6 @@ class MessagesController < ApplicationController
     @messages = @conversation.messages.ordering.paginate(page: params[:messages_page], per_page: 20)
     @message = @conversation.messages.new
     @conversation_count = @messages.size
-
     if @conversation.sender_id == current_user.id
       @user = User.find_by(id: @conversation.receiver_id)
     else
@@ -20,7 +19,13 @@ class MessagesController < ApplicationController
   def create
     @message = @conversation.messages.new(message_params)
     if @message.save
-      redirect_to conversation_messages_path(@conversation)
+      respond_to do |format|
+        format.js { render file: "messages/create_success.js.erb" }
+      end
+    else
+      respond_to do |format|
+        format.js { render file: "messages/create_failure.js.erb" }
+      end
     end
   end
 

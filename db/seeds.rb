@@ -51,3 +51,15 @@ end
     image: File.new(Rails.root.join(n))
   )
 end
+
+50.times do |n|
+  user = User.all.sample
+  post = Post.approved.sample
+  approved_by = ([1,2]).to_a.sample if n%2==0
+  Review.create!(post_id: post.id,
+                 user_id: user.id,
+                 approved_id: approved_by,
+                 heading: Faker::Restaurant.description,
+                 content: Faker::Restaurant.review,
+                 rating: (1..5).to_a.sample)
+end

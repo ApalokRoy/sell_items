@@ -45,22 +45,22 @@ class PostsController < ApplicationController
 
   def show
     @assets = @post.assets
-    flash.now[:warning] = "Please Login to message or mail the owner!" unless current_user
+    @review = @post.reviews.new
+    @reviews = @post.reviews.includes(:user).approved.paginate(page: params[:reviews_page], per_page: 20)
   end
 
   def destroy
-    logged_in_user
-    redirect_to root_url unless current_user?(@user) || current_user.admin?
-    session[:return_to] = request.referer
-    Post.find(params[:id]).destroy
-    flash[:success] = "Advertisement has been deleted Sucessfully!"
-    redirect_to session[:return_to]
+    if logged_in_user
+      redirect_to root_url unless current_user?(@user) || current_user.admin?
+      session[:return_to] = request.referer
+      Post.find(params[:id]).destroy
+      flash[:success] = "Advertisement has been deleted Sucessfully!"
+      redirect_to session[:return_to]
+    end
   end
 
   def sendmail
-    logged_in_user
-
-    if @post.user_id != current_user.id
+    if logged_in_user
       PostMailer.send_email(@post, current_user).deliver_later
       redirect_to user_post_path(@user, @post)
     end

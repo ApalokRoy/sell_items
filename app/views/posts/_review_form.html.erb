@@ -1,0 +1,35 @@
+<%= form_for [@user, @post, @review], url: user_post_reviews_path(@user, @post), remote: true do |f| %>
+  <%= render 'shared/error_messages', object: @review %>
+  
+  <div class="form-inline">
+    <%= f.label :rating %><br />
+    <div class="radio inline">
+      <%= f.radio_button :rating, 1 %>
+      <%= f.label :rating, "Worst" %>
+    </div>
+    <div class="radio inline">
+      <%= f.radio_button :rating, 2 %>
+      <%= f.label :rating, "Poor" %>
+    </div>
+    <div class="radio inline">
+      <%= f.radio_button :rating, 3 %>
+      <%= f.label :rating, "Average" %>
+    </div>
+    <div class="radio inline">
+      <%= f.radio_button :rating, 4 %>
+      <%= f.label :rating, "Good" %>
+    </div>
+    <div class="radio inline">
+      <%= f.radio_button :rating, 5 %>
+      <%= f.label :rating, "Best" %>
+    </div>
+  </div>        
+
+  <%= f.label :heading, "Review Title" %>
+  <%= f.text_field :heading, class: 'form-control' %>
+
+  <%= f.label :content, "Comment" %>
+  <%= f.text_area :content, class: "form-control" %>
+  <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
+  <%= f.submit "Post Review", class: "btn btn-primary" %>
+<% end %>

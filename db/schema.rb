@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_22_113414) do
+ActiveRecord::Schema.define(version: 2019_08_10_144650) do
 
   create_table "assets", force: :cascade do |t|
     t.integer "post_id", null: false
@@ -65,6 +65,20 @@ ActiveRecord::Schema.define(version: 2019_07_22_113414) do
     t.index ["approved_id"], name: "index_posts_on_approved_id"
     t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.integer "approved_id"
+    t.string "heading", null: false
+    t.string "content"
+    t.integer "rating", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approved_id"], name: "index_reviews_on_approved_id"
+    t.index ["post_id"], name: "index_reviews_on_post_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

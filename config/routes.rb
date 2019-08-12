@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get "sendmail", as: "send_mail", on: :member 
       
       resources :assets, only: :destroy
+      resources :reviews, only: [:create, :destroy] 
     end
   end
 
@@ -34,6 +35,11 @@ Rails.application.routes.draw do
       get "pending", on: :collection 
       post "status", on: :member
     end
+    resources :reviews, only: [] do
+      get "pending", on: :collection 
+      post "status", on: :member
+    end
+
   end
 
 end
