@@ -13,7 +13,7 @@ class PostsController < ApplicationController
     if @post.save
       if params[:post][:asset].present? 
         params[:post][:asset]['image'].each do |img|
-          @photo = @post.assets.create!(:image => img)
+          @photo = @post.assets.create!(image: img)
         end
       end
 
@@ -32,7 +32,7 @@ class PostsController < ApplicationController
     if @post.update_attributes(post_params)
       if params[:post][:asset].present? 
         params[:post][:asset]['image'].each do |img|
-          @photo = @post.assets.create!(:image => img)
+          @photo = @post.assets.create!(image: img)
         end
       end
 
@@ -61,7 +61,12 @@ class PostsController < ApplicationController
 
   def sendmail
     if logged_in_user
-      PostMailer.send_email(@post, current_user).deliver_later
+      if @post.user == current_user
+        flash[:info] = "You can't show interest on your own advertisement!"
+      else
+        PostMailer.send_email(@post, current_user).deliver_later
+        flash[:success] = "Your responce is successfully saved!"
+      end  
       redirect_to user_post_path(@user, @post)
     end
   end
