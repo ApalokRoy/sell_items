@@ -17,8 +17,8 @@
       <h4>
         Posted By: <%= @post.user.name %>
         <% if @post.approved_id.present? %>
-          <%= link_to "Message Me", conversations_path(conversation:
-              { receiver_id: @post.user.id, post_id: @post.id }), method: "post" %>
+          <%= link_to "Message Me", find_or_create_conversations_path(conversation:
+              { receiver_id: @post.user.id, post_id: @post.id }) %>
         <% end %>
       </h4>
       <h4>Contact Information: <%= @post.phone_number %></h4>

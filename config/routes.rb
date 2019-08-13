@@ -19,7 +19,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :conversations, only: [:create, :index] do
+  resources :conversations, only: :index do
+    get "find_or_create", on: :collection
     resources :messages, only: [:new, :create, :index] 
   end
 
