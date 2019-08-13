@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       get "pending", on: :collection 
       post "status", on: :member
     end
-    resources :reviews, only: [] do
+    resources :reviews, only: [:show] do
       get "pending", on: :collection 
       post "status", on: :member
     end

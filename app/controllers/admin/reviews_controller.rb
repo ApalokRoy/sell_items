@@ -3,7 +3,7 @@ class Admin::ReviewsController < ApplicationController
 
   # Lists all the posts that are yet to be approved
   def pending
-    @reviews = Review.includes(:user, :post).yet_to_be_approved
+    @reviews = Review.includes(:post).yet_to_be_approved
   end
 
   # Approve the pending post
@@ -13,6 +13,10 @@ class Admin::ReviewsController < ApplicationController
     redirect_to pending_admin_reviews_path
   end
 
+  def show
+    @review = Review.find(params[:id])
+  end
+  
   private   
     # Before filters
     # Authenticates current user is admin or not.

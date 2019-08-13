@@ -1,0 +1,21 @@
+<% provide(:title, @review.heading) %>
+<div class="row">
+  <aside class="col-md-8 col-md-offset-2">
+    <section class="user_info">
+      <h1>Heading: <%= @review.heading %></h1>
+      <h4>Rating: 
+          <% @review.rating.to_i.times do  %>
+            <span class="glyphicon glyphicon-star rating-golden"></span>
+          <% end %>
+          <% @review.blank_stars.times do %>
+            <span class="glyphicon glyphicon-star-empty"></span>
+          <% end %>
+      </h4>
+      <h4>Content: <%= @review.content %></h4>
+      <p>Reviewed by <%= @review.user.name %>, which belongs to <%= @review.post.name %> under Category <%= @review.post.category.name.titlecase %>.</p>
+      <%= link_to "Approve" , status_admin_review_path(@review), method: :post, class: "btn btn-primary" %>
+      <%= link_to "Reject" , user_post_review_path(@review.post.user_id, @review.post_id, @review),
+                method: :delete, data: { confirm: "Are You sure?" }, class: "btn btn-danger" %>
+    </section>
+  </aside>
+</div>

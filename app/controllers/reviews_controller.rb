@@ -22,10 +22,9 @@ class ReviewsController < ApplicationController
   def destroy
     if logged_in_user
       redirect_to root_url unless current_user.admin?
-      session[:return_to] = request.referer
       Review.find(params[:id]).destroy
       flash[:success] = "Review has been deleted Sucessfully!"
-      redirect_to session[:return_to]
+      redirect_to pending_admin_reviews_path
     end
   end
 
