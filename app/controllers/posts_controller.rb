@@ -51,11 +51,16 @@ class PostsController < ApplicationController
 
   def destroy
     if logged_in_user
-      redirect_to root_url unless current_user?(@user) || current_user.admin?
+      redirect_to root_url unless current_user?(@user) || current_user.admin?     
       session[:return_to] = request.referer
       Post.find(params[:id]).destroy
       flash[:success] = "Advertisement has been deleted Sucessfully!"
-      redirect_to session[:return_to]
+      
+      if request.referer.include?(user_post_path(@user,@post))
+        redirect_to pending_admin_posts_path
+      else
+        redirect_to session[:return_to]
+      end
     end
   end
 
@@ -65,7 +70,7 @@ class PostsController < ApplicationController
         flash[:info] = "You can't show interest on your own advertisement!"
       else
         PostMailer.send_email(@post, current_user).deliver_later
-        flash[:success] = "Your responce is successfully saved!"
+        flash[:success] = "Your responce is saved successfully!"
       end  
       redirect_to user_post_path(@user, @post)
     end

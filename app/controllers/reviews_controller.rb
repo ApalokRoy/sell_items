@@ -1,13 +1,11 @@
 class ReviewsController < ApplicationController
-  before_action :find_user
-  before_action :find_post
+  before_action :find_user_and_post
 
   def create
     if logged_in_user
       @review = @post.reviews.new(review_params)
       if @post.approved_id.present? && @review.save
-        # redirect_to user_post_path(@user, @post)
-        # flash[:success] = "Review is uploaded for approval!"
+        flash[:success] = "Review is uploaded for approval!"
         respond_to do |format|
           format.js { render file: "posts/create_success.js.erb" }
         end
@@ -36,13 +34,9 @@ class ReviewsController < ApplicationController
     end
 
     # Before filters
-    # Find User
-    def find_user
+    # Find User and Post
+    def find_user_and_post
       @user = User.find(params[:user_id])
+      @post = Post.find(params[:post_id])
     end
-
-    # Find Posts
-    def find_post
-      @post = @user.posts.find(params[:post_id])
-    end  
 end

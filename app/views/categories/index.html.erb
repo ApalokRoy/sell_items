@@ -25,11 +25,6 @@
             </div>
             <div class="panel-body">
               <%= link_to "Show Category", category_path(category) %>
-              <% if current_user && current_user.admin? %>
-                <%= link_to "Edit Category", edit_admin_category_path(category) %>
-                <%= link_to "Delete Category", admin_category_path(category),
-                    method: :delete, data: { confirm: "Are You sure?" } %>
-              <% end %>
             </div>
           </div>
         </div>
