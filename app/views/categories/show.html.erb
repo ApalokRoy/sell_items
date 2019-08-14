@@ -2,7 +2,17 @@
 <div class="row">
   <aside class="col-md-8 col-md-offset-2">
     <section class="user_info">
-      <h1><%= @category.name.titlecase %></h1>
+      <p>
+        <span><h1><%= @category.name.titlecase %></h1></span>
+        <% if current_user && current_user.admin? %>
+          <span class="pull-right">
+            <%= link_to "Edit Category", edit_admin_category_path(@category) %>
+            <%= link_to "Delete Category", admin_category_path(@category),
+                method: :delete, data: { confirm: "Are You sure?" } %>
+          </span>
+        <% end %>
+      </p>
+
       <% if @posts.count > 0 %>
         <h1><%="We have #{pluralize(@posts.count, "advertisement")} under this category."%></h1>
         <hr>

@@ -19,8 +19,8 @@ class Post < ApplicationRecord
                     format: { with: VALID_PHONE_REGEX }
   validates :user_id, :category_id, :city, presence: true
 
-  scope :yet_to_be_approved, ->{ where(approved_id: nil) }
-  scope :approved, ->{ where.not(approved_id: nil) }
+  scope :yet_to_be_approved, -> { where(approved_id: nil) }
+  scope :approved, -> { where.not(approved_id: nil) }
 
   settings do
     mappings dynamic: false do

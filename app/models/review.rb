@@ -8,11 +8,11 @@ class Review < ApplicationRecord
   validates :heading, presence: true, length: { minimum: 10 }
   validate :approved_post
 
-  scope :yet_to_be_approved, ->{ where(approved_id: nil) }
-  scope :approved, ->{ where.not(approved_id: nil) }
+  scope :yet_to_be_approved, -> { where(approved_id: nil) }
+  scope :approved, -> { where.not(approved_id: nil) }
 
   def approved_post
-    if !post.approved_id.present?
+    unless post.approved_id.present?
       errors.add(:post_id, "must be approved")
     end
   end

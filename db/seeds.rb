@@ -59,7 +59,7 @@ end
   Review.create!(post_id: post.id,
                  user_id: user.id,
                  approved_id: approved_by,
-                 heading: Faker::Restaurant.description,
+                 heading: Faker::Space.agency,
                  content: Faker::Restaurant.review,
                  rating: (1..5).to_a.sample)
 end

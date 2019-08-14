@@ -10,6 +10,7 @@ class Admin::ReviewsController < ApplicationController
   def status
     @review = Review.find(params[:id])
     @review.update_attribute(:approved_id, current_user.id)
+    flash[:success] = "Review is approved!"
     redirect_to pending_admin_reviews_path
   end
 
