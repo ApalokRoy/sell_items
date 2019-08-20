@@ -57,7 +57,7 @@ class PostsController < ApplicationController
       flash[:success] = "Advertisement has been deleted Sucessfully!"
       
       if request.referer.include?("admin")
-        redirect_to pending_admin_posts_path
+        redirect_to admin_home_path
       else
         redirect_to session[:return_to]
       end

@@ -13,8 +13,8 @@
         <% @messages.each do |message| %>
           <% if message.message_body %>
             <% user = User.find(message.user_id) %>
-            <div>
-              <div>
+            <div class="message-box">
+              <div class= <%= user == current_user ? "pull-right" : "pull-left" %>>
                 <div>
                   <strong><%= user.name %> </strong>
                   <%= message.message_time %>

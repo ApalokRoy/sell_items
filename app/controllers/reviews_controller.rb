@@ -42,7 +42,7 @@ class ReviewsController < ApplicationController
     redirect_to root_url unless current_user.admin?
     Review.find(params[:id]).destroy
     flash[:success] = "Review has been deleted Sucessfully!"
-    redirect_to pending_admin_reviews_path
+    redirect_to admin_home_path
   end
 
 

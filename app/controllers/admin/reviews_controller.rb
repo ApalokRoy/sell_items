@@ -9,10 +9,14 @@ class Admin::ReviewsController < Admin::HomeController
     @review = Review.find(params[:id])
     @review.update_attribute(:approved_id, current_user.id)
     flash[:success] = "Review is approved!"
-    redirect_to pending_admin_reviews_path
+    redirect_to admin_home_path
   end
 
   def show
     @review = Review.find(params[:id])
+  end
+
+  def index
+    @reviews = Review.includes(:user, :post).all
   end
 end

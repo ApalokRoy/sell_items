@@ -9,11 +9,15 @@ class Admin::PostsController < Admin::HomeController
     @post = Post.find(params[:id])
     @post.update_attribute(:approved_id, current_user.id)
     flash[:success] = "Advertisement is approved!"
-    redirect_to pending_admin_posts_path
+    redirect_to admin_home_path
   end
 
   def show
     @post = Post.find(params[:id])
     @assets = @post.assets
+  end
+
+  def index
+    @posts = Post.includes(:user, :category).all
   end
 end

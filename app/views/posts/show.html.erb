@@ -54,15 +54,15 @@
   </div>
 <% end %>
 <div class="row">
-  <% if logged_in? && @post.approved_id.present? %>
+  <% if logged_in? %>
     <div class="col-md-6 add_review">
       <%= render "review_form"%>
     </div>
-  <% elsif @post.approved_id.present? %>
+  <% else %>
     <h3>Login to post your review!</h3>
   <% end %>
 </div>
-<% if @reviews.count > 0 && @post.approved_id.present? %>
+<% if @reviews.count > 0 %>
   <h3>Reviews (<%= @reviews.count %>)</h3>
   <div class="row">
     <%= will_paginate @reviews, param_name: 'reviews_page' %>

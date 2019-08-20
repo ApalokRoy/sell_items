@@ -30,11 +30,11 @@ Rails.application.routes.draw do
   namespace :admin do
     get "/home",  to: "home#index"
     resources :categories
-    resources :posts, only: [:show] do
+    resources :posts, only: [:show, :index] do
       get "pending", on: :collection 
       post "status", on: :member
     end
-    resources :reviews, only: [:show] do
+    resources :reviews, only: [:show, :index] do
       get "pending", on: :collection 
       post "status", on: :member
     end
