@@ -1,6 +1,4 @@
-class Admin::ReviewsController < ApplicationController
-  before_action :authenticate
-
+class Admin::ReviewsController < Admin::HomeController
   # Lists all the posts that are yet to be approved
   def pending
     @reviews = Review.includes(:post).yet_to_be_approved
@@ -17,13 +15,4 @@ class Admin::ReviewsController < ApplicationController
   def show
     @review = Review.find(params[:id])
   end
-  
-  private   
-    # Before filters
-    # Authenticates current user is admin or not.
-    def authenticate
-      if logged_in_user
-        redirect_to root_url unless current_user.admin?
-      end
-    end
 end

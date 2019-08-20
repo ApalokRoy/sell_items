@@ -1,4 +1,4 @@
-<%= form_for [@user, @post, @review], url: user_post_reviews_path(@user, @post), remote: true do |f| %>
+<%= form_for [@user, @post, @review], url: @review.new_record? ? user_post_reviews_path(@user, @post) : user_post_review_path(@user, @post, @review), remote: true do |f| %>
   <%= render 'shared/error_messages', object: @review %>
   
   <div class="form-inline">
@@ -31,5 +31,10 @@
   <%= f.label :content, "Comment" %>
   <%= f.text_area :content, class: "form-control" %>
   <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
-  <%= f.submit "Post Review", class: "btn btn-primary" %>
+  <% if @review.new_record? %>
+    <%= f.submit "Post Review", class: "btn btn-primary" %>
+  <% else %>
+    <%= f.submit "Update Review", class: "btn btn-primary" %>
+    <%= link_to "Cancel", user_post_path(@user, @post), class: "btn btn-primary" %>
+  <% end %>
 <% end %>

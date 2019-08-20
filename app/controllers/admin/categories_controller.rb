@@ -1,6 +1,4 @@
-class Admin::CategoriesController < ApplicationController
-  before_action :authenticate
-
+class Admin::CategoriesController < Admin::HomeController
   def new
     @category = Category.new
   end
@@ -9,7 +7,7 @@ class Admin::CategoriesController < ApplicationController
     @category = Category.new(category_params)
     if @category.save
       flash[:success] = "New Category is Created Sucessfully!"
-      redirect_to category_path(@category)
+      redirect_to admin_category_path(@category)
     else
       render 'new'
     end
@@ -23,7 +21,7 @@ class Admin::CategoriesController < ApplicationController
     @category = Category.find(params[:id])
     if @category.update_attributes(category_params)
       flash[:success] = "Category Information is updated Sucessfully!"
-      redirect_to category_path(@category)
+      redirect_to admin_category_path(@category)
     else
       render 'edit'
     end
@@ -32,20 +30,20 @@ class Admin::CategoriesController < ApplicationController
   def destroy
     Category.find(params[:id]).destroy
     flash[:success] = "Category has been deleted Sucessfully!"
-    redirect_to root_url
+    redirect_to admin_categories_path
   end
 
+  def show
+    @category = Category.find(params[:id])
+    #@posts = @category.posts.approved.paginate(page: params[:posts_page], per_page: 20)
+  end
+
+  def index
+    @categories = Category.ordering.paginate(page: params[:categories_page], per_page: 20)
+  end
   private
     # Permiseble parameters.
     def category_params
       params.require(:category).permit(:name)
-    end
-    
-    # Before filters
-    # Authenticates current user is admin or not.
-    def authenticate
-      if logged_in_user
-        redirect_to root_url unless current_user.admin?
-      end
     end
 end

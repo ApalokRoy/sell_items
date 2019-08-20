@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
   root "categories#index"
-  get "/help", to: "static_pages#help"
-  get "/about", to: "static_pages#about"
-  get "/contact", to: "static_pages#contact"
   get "/signup",  to: "users#new"
   post "/signup",  to: "users#create"
   get "/login",   to: "sessions#new"
@@ -15,7 +12,7 @@ Rails.application.routes.draw do
       get "sendmail", as: "send_mail", on: :member 
       
       resources :assets, only: :destroy
-      resources :reviews, only: [:create, :destroy] 
+      resources :reviews, only: [:create, :destroy, :update, :edit] 
     end
   end
 
@@ -31,8 +28,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :categories, except: [:index, :show]
-    resources :posts, only: [] do
+    get "/home",  to: "home#index"
+    resources :categories
+    resources :posts, only: [:show] do
       get "pending", on: :collection 
       post "status", on: :member
     end
@@ -40,7 +38,6 @@ Rails.application.routes.draw do
       get "pending", on: :collection 
       post "status", on: :member
     end
-
   end
 
 end

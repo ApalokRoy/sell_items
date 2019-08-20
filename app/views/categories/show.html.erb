@@ -4,13 +4,6 @@
     <section class="user_info">
       <p>
         <span><h1><%= @category.name.titlecase %></h1></span>
-        <% if current_user && current_user.admin? %>
-          <span class="pull-right">
-            <%= link_to "Edit Category", edit_admin_category_path(@category) %>
-            <%= link_to "Delete Category", admin_category_path(@category),
-                method: :delete, data: { confirm: "Are You sure?" } %>
-          </span>
-        <% end %>
       </p>
 
       <% if @posts.count > 0 %>

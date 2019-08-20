@@ -45,7 +45,7 @@ class PostsController < ApplicationController
 
   def show
     @assets = @post.assets
-    @review = @post.reviews.new
+    @review = params[:review].present? ? Review.find(params[:review]) : @post.reviews.new
     @reviews = @post.reviews.includes(:user).approved.paginate(page: params[:reviews_page], per_page: 20)
   end
 
@@ -56,7 +56,7 @@ class PostsController < ApplicationController
       Post.find(params[:id]).destroy
       flash[:success] = "Advertisement has been deleted Sucessfully!"
       
-      if request.referer.include?(user_post_path(@user,@post))
+      if request.referer.include?("admin")
         redirect_to pending_admin_posts_path
       else
         redirect_to session[:return_to]

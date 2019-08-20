@@ -10,7 +10,7 @@
     <tr>
     <% @posts.each do |post| %>
       <tr>
-        <td><strong><%= link_to post.name, user_post_path(post.user_id, post) %></strong></td>
+        <td><strong><%= link_to post.name, admin_post_path(post) %></strong></td>
         <td><%= post.user.name.titlecase %></td>
         <td><%= link_to "Approve" , status_admin_post_path(post), method: :post %></td>
         <td><%= link_to "Reject" , user_post_path(post.user_id, post),

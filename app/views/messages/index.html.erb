@@ -1,4 +1,4 @@
-<% provide(:title, "Message Box") %>
+<% provide(:title, "#{@conversation.post.name} - #{@user.name}") %>
 <div>
   <%= link_to "Back to Inbox", conversations_path %>
   <div class="row">

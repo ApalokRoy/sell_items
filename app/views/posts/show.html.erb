@@ -16,7 +16,7 @@
       <h4>Description: <%= @post.description %></h4>
       <h4>
         Posted By: <%= @post.user.name %>
-        <% if @post.approved_id.present? %>
+        <% if @post.approved_id.present? && (current_user.nil? || @post.user != current_user) %>
           <%= link_to "Message Me", find_or_create_conversations_path(conversation:
               { receiver_id: @post.user.id, post_id: @post.id }) %>
         <% end %>
@@ -25,11 +25,7 @@
       <h4>City: <%= @post.city %></h4>
       <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id%>
       <br>
-      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary" if @post.approved_id.present? %>
-      <%= link_to "Approve" , status_admin_post_path(@post), method: :post, class: "btn btn-primary" unless @post.approved_id.present? %>
-      <%= link_to "Reject" , user_post_path(@user, @post),
-                method: :delete, data: { confirm: "Are You sure?" }, class: "btn btn-danger" unless @post.approved_id.present? %>
-
+      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary" if @post.approved_id.present? && (current_user.nil? || @post.user != current_user) %>
     </section>
   </aside>
 </div>
@@ -71,25 +67,28 @@
   <div class="row">
     <%= will_paginate @reviews, param_name: 'reviews_page' %>
     <% @reviews.each do |review|  %>
-      <div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              <%= review.heading %>
-              <% review.rating.to_i.times do  %>
-                <span class="glyphicon glyphicon-star rating-golden"></span>
-              <% end %>
-              <% review.blank_stars.times do %>
-                <span class="glyphicon glyphicon-star-empty"></span>
-              <% end %>
-            </h3>
-          </div>
-          <div class="panel-body">
-            <p>Reviewed by <%= review.user.name %></p>
-            <p><%= review.content %></p>
+      <% unless params[:review].to_i == review.id %>
+        <div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <%= review.heading %>
+                <% review.rating.to_i.times do  %>
+                  <span class="glyphicon glyphicon-star rating-golden"></span>
+                <% end %>
+                <% review.blank_stars.times do %>
+                  <span class="glyphicon glyphicon-star-empty"></span>
+                <% end %>
+              </h3>
+            </div>
+            <div class="panel-body">
+              <p>Reviewed by <%= review.user.name %></p>
+              <p><%= review.content %></p>
+              <%= link_to "Edit Review", edit_user_post_review_path(@post.user, @post, review) if review.user == current_user %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
     <%= will_paginate @reviews, param_name: 'reviews_page' %>
   </div>
