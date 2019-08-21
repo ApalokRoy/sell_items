@@ -10,6 +10,7 @@ class Review < ApplicationRecord
 
   scope :yet_to_be_approved, -> { where(approved_id: nil) }
   scope :approved, -> { where.not(approved_id: nil) }
+  scope :pending_to_be_approved, ->(user_id) { where(user_id: user_id, approved_id: nil) }
  
   def approved_post
     unless post.approved_id.present?

@@ -27,10 +27,11 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Execjs and TheRubyRacer to start Rails Server
 gem 'execjs'
-gem 'therubyracer'
+gem 'mini_racer'
 
 # Use Bootstrap for Styling
-gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
+gem 'bootstrap', '~> 4.3', '>= 4.3.1'
+gem 'sprockets-rails', '~> 3.2', '>= 3.2.1'
 
 # Use Bcrypt for Password
 gem 'bcrypt', '~> 3.1', '>= 3.1.13'

@@ -8,9 +8,9 @@
       <h4>Posted By: <%= @post.user.name %></h4>
       <h4>Contact Information: <%= @post.phone_number %></h4>
       <h4>City: <%= @post.city %></h4>
-      <%= link_to "Approve" , status_admin_post_path(@post), method: :post, class: "btn btn-primary" unless @post.approved_id.present? %>
-      <%= link_to "Reject" , user_post_path(@post.user_id, @post),
-                method: :delete, data: { confirm: "Are You sure?" }, class: "btn btn-danger" unless @post.approved_id.present? %>
+      <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id %>
+      <%= link_to "Delete Advertisement" , user_post_path(@post.user_id, @post),
+                method: :delete, data: { confirm: "Are You sure?" } if current_user && current_user.id == @post.user_id %>
     </section>
   </aside>
 </div>
@@ -26,6 +26,11 @@
           <div class="panel-body">
             <%= link_to image_url(asset.image.url) do%>
               <%= image_tag asset.image.url(:thumb) %>
+            <% end %>
+            <% if current_user && current_user.id == @post.user_id %>
+              <hr>
+              <%= link_to "Delete Image", user_post_asset_path(@user, @post, asset.id), 
+                method: :delete, data: { confirm: "Are You sure?" } %>
             <% end %>
           </div>
         </div>

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :users, except: [:destroy, :index] do
     resources :posts, except: :index  do
       get "sendmail", as: "send_mail", on: :member 
+      get "myshow", as: "my_show", on: :member 
+      get "myindex", as: "my_index", on: :collection
       
       resources :assets, only: :destroy
       resources :reviews, only: [:create, :destroy, :update, :edit] 

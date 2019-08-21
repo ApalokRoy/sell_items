@@ -23,8 +23,6 @@
       </h4>
       <h4>Contact Information: <%= @post.phone_number %></h4>
       <h4>City: <%= @post.city %></h4>
-      <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id%>
-      <br>
       <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary" if @post.approved_id.present? && (current_user.nil? || @post.user != current_user) %>
     </section>
   </aside>
@@ -41,11 +39,6 @@
           <div class="panel-body">
             <%= link_to image_url(asset.image.url) do%>
               <%= image_tag asset.image.url(:thumb) %>
-            <% end %>
-            <% if current_user && current_user.id == @post.user_id %>
-              <hr>
-              <%= link_to "Delete Image", user_post_asset_path(@user, @post, asset.id), 
-                method: :delete, data: { confirm: "Are You sure?" } %>
             <% end %>
           </div>
         </div>
@@ -91,5 +84,26 @@
       <% end %>
     <% end %>
     <%= will_paginate @reviews, param_name: 'reviews_page' %>
+    <% @pendingreviews.each do |pending|  %>
+      <div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <%= pending.heading %>
+              <% pending.rating.to_i.times do  %>
+                <span class="glyphicon glyphicon-star rating-golden"></span>
+              <% end %>
+              <% pending.blank_stars.times do %>
+                <span class="glyphicon glyphicon-star-empty"></span>
+              <% end %>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <p>Reviewed by <%= pending.user.name %></p>
+            <p><%= pending.content %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 <% end %>

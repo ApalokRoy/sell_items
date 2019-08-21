@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:show, :sendmail, :destroy, :search]
   before_action :find_user, except: :search
-  before_action :find_post, only: [:edit, :update, :show, :destroy, :sendmail]
+  before_action :find_post, only: [:edit, :update, :show, :destroy, :sendmail, :myshow]
 
   def new
     @post = @user.posts.new
@@ -47,19 +47,19 @@ class PostsController < ApplicationController
     @assets = @post.assets
     @review = params[:review].present? ? Review.find(params[:review]) : @post.reviews.new
     @reviews = @post.reviews.includes(:user).approved.paginate(page: params[:reviews_page], per_page: 20)
+    @pendingreviews = @post.reviews.includes(:user).pending_to_be_approved(current_user.id)
   end
 
   def destroy
     if logged_in_user
       redirect_to root_url unless current_user?(@user) || current_user.admin?     
-      session[:return_to] = request.referer
       Post.find(params[:id]).destroy
       flash[:success] = "Advertisement has been deleted Sucessfully!"
       
       if request.referer.include?("admin")
         redirect_to admin_home_path
       else
-        redirect_to session[:return_to]
+        redirect_to my_index_user_posts_path
       end
     end
   end
@@ -80,6 +80,14 @@ class PostsController < ApplicationController
     if params[:search_posts].presence
       @posts = Post.search_approved(params[:search_posts])
     end
+  end
+
+  def myindex
+     @posts = @user.posts.includes(:category)
+  end
+
+  def myshow
+    @assets = @post.assets
   end
 
   private

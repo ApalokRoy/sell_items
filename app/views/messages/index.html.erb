@@ -14,10 +14,9 @@
           <% if message.message_body %>
             <% user = User.find(message.user_id) %>
             <div class="message-box">
-              <div class= <%= user == current_user ? "pull-right" : "pull-left" %>>
+              <div class = "<%= user == current_user ? 'pull-right text-primary' : 'pull-left text-success' %>">
                 <div>
-                  <strong><%= user.name %> </strong>
-                  <%= message.message_time %>
+                  <%= user.name %> at <%= message.message_time %>
                 </div>
                 <div>
                   <div>

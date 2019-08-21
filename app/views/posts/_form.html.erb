@@ -6,7 +6,7 @@
 
   <%= f.label :category_id %>
   <%= f.select :category_id, options_for_select(Category.all.collect{|c| [c.name.titleize, c.id]}),
-      prompt: 'Select Category' %>
+      prompt: 'Select Category', class: 'form-control dropdown' %>
 
   <%= f.label :description %>
   <%= f.text_area :description, class: 'form-control' %>

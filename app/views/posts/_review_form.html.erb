@@ -34,7 +34,7 @@
   <% if @review.new_record? %>
     <%= f.submit "Post Review", class: "btn btn-primary" %>
   <% else %>
-    <%= f.submit "Update Review", class: "btn btn-primary" %>
+    <%= f.submit "Update Review", class: "btn btn-primary update-button" %>
     <%= link_to "Cancel", user_post_path(@user, @post), class: "btn btn-primary" %>
   <% end %>
 <% end %>
