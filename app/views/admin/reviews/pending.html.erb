@@ -2,22 +2,21 @@
 <div>
   <h1>Pending Reviews</h1>
   <div>
-  <table class="table table-striped">
-    <tr>
-      <td><h4>Headings</h4></td>
-      <td><h4>Item Name</h4></td>
-      <td><h4>Ratings</h4></td>
-      <td colspan=2><h4>Links</h4></td>
-    <tr>
-    <% @reviews.each do |review| %>
+    <table class="table table-striped">
       <tr>
-        <td><%= link_to review.heading, admin_review_path(review) %></td>
-        <td><strong><%= review.post.name %></strong></td>
-        <td><%= review.rating %></td>
-        <td><%= link_to "Approve" , status_admin_review_path(review), method: :post %></td>
-        <td><%= link_to "Reject" , user_post_review_path(review.post.user_id, review.post_id, review),
-                method: :delete, data: { confirm: "Are You sure?" } %></td>
-      </tr>
-    <% end %>
-  </table>
+        <td><h4>Headings</h4></td>
+        <td><h4>Item Name</h4></td>
+        <td colspan=2 class="text-center"><h4>Links</h4></td>
+      <tr>
+      <% @reviews.each do |review| %>
+        <tr>
+          <td><%= link_to review.heading, admin_review_path(review) %></td>
+          <td><%= review.post.name %></td>
+          <td><%= link_to "Approve" , status_admin_review_path(review), method: :post %></td>
+          <td><%= link_to "Reject" , user_post_review_path(review.post.user_id, review.post_id, review),
+                  method: :delete, data: { confirm: "Are You sure?" } %></td>
+        </tr>
+      <% end %>
+    </table>
+  <div>
 </div>

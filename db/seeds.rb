@@ -27,7 +27,7 @@ Category.create!(name:  "Book")
 Category.create!(name:  "Camera")
 
 20.times do |n|
-  name  = Faker::Name.name
+  name  = Faker::Restaurant.name
   category = Category.all.sample
   description = Faker::Company.catch_phrase
   user = User.all.sample

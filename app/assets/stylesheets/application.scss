@@ -1,0 +1,115 @@
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+/* universal */
+body {
+  padding-top: 80px;
+}
+  
+section {
+  overflow: auto;
+}
+  
+textarea {
+  resize: vertical;
+}
+  
+.center {
+  text-align: center;
+  
+  h1 {
+    margin-bottom: 10px;
+  }
+}
+
+/* typography */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1;
+}
+  
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+  
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #777;
+}
+  
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+/* header */
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  &:hover {
+    color: #00f;
+    text-decoration: none;
+  }
+}
+
+/* Rating */
+.rating-golden
+{
+  color: gold;
+  span {
+    display: inline;
+  }
+}
+
+.review 
+{
+  width: 100%;
+}
+
+/* Users index */
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 5px 0;
+  } 
+}
+
+/* Messages */
+.message-box
+{
+  overflow: hidden;
+  small {
+    color: black;
+    font-size: 70%;
+  }
+}
+
+/* login form */
+.social-login{
+  margin-top: 15px;
+  text-align: center
+}
+
+/* Errors */
+#error_explanation {
+  color: #f00;
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}

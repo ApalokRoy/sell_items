@@ -1,0 +1,44 @@
+<% provide(:title, @post.name) %>
+<div class="row">
+  <aside class="col-md-10 col-md-offset-2">
+    <section class="user_info">
+      <h1><strong><%= @post.name %></strong></h1>
+      <div>
+        <p><strong>Category: </strong><%= @post.category.name.titlecase %></p>
+        <p><strong>Description: </strong><%= @post.description %></p>
+        <p><strong>Posted By: </strong><%= @post.user.name %></p>
+        <p><strong>Contact Information: </strong><%= @post.phone_number %></p>
+        <p><strong>City: </strong><%= @post.city %></p>
+
+        <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id %>
+        <%= link_to "Delete Advertisement" , user_post_path(@post.user_id, @post),
+                  method: :delete, data: { confirm: "Are You sure?" } if current_user && current_user.id == @post.user_id %>
+      </div>
+    </section>
+  </aside>
+</div>
+<% if @assets.count > 0 %>
+  <hr>
+  <h3>Images (<%= @assets.count %>)</h3>
+  <div class="row">
+    <% @assets.each do |asset|  %>
+      <div class="col-sm-2 mb-3">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title"><%= File.basename(asset.image_file_name, ".*") %></h5>
+          </div>
+          <div class="card-body">
+            <%= link_to image_url(asset.image.url) do%>
+              <%= image_tag asset.image.url(:thumb) %>
+            <% end %>
+            <% if current_user && current_user.id == @post.user_id %>
+              <hr>
+              <%= link_to "Delete Image", user_post_asset_path(@user, @post, asset.id), 
+                method: :delete, data: { confirm: "Are You sure?" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

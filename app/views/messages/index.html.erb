@@ -1,27 +1,28 @@
-<% provide(:title, "Message Box") %>
+<% provide(:title, "#{@conversation.post.name} - #{@user.name}") %>
 <div>
   <%= link_to "Back to Inbox", conversations_path %>
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-sm-8 offset-sm-2">
       <h3><%="#{@conversation.post.name} - #{@user.name} (#{pluralize(@conversation_count, "message")})" %></h3>
       <hr>
-      <div class="message_box">
-        <%= render 'form' %>
+      <div class="row justify-content-sm-center">
+        <div class="col-sm-8 mb-3">
+          <div class="message_box">
+            <%= render 'form' %>
+          </div>
+        </div>
       </div>
       <div>
         <%= will_paginate @messages, param_name: 'messages_page' %>
         <% @messages.each do |message| %>
           <% if message.message_body %>
             <% user = User.find(message.user_id) %>
-            <div>
-              <div>
-                <div>
-                  <strong><%= user.name %> </strong>
-                  <%= message.message_time %>
-                </div>
+            <div class="message-box">
+              <div class = "<%= user == current_user ? 'text-right text-primary' : 'text-left text-success' %>">
                 <div>
                   <div>
                     <%= message.message_body %>
+                    <small><%= message.message_time %></small>
                   </div>
                 </div>
               </div>

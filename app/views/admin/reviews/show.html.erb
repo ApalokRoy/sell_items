@@ -1,21 +1,24 @@
 <% provide(:title, @review.heading) %>
 <div class="row">
-  <aside class="col-md-8 col-md-offset-2">
+  <aside class="col-md-10 col-md-offset-2">
     <section class="user_info">
-      <h1>Heading: <%= @review.heading %></h1>
-      <h4>Rating: 
-          <% @review.rating.to_i.times do  %>
-            <span class="glyphicon glyphicon-star rating-golden"></span>
-          <% end %>
-          <% @review.blank_stars.times do %>
-            <span class="glyphicon glyphicon-star-empty"></span>
-          <% end %>
-      </h4>
-      <h4>Content: <%= @review.content %></h4>
-      <p>Reviewed by <%= @review.user.name %>, which belongs to <%= @review.post.name %> under Category <%= @review.post.category.name.titlecase %>.</p>
-      <%= link_to "Approve" , status_admin_review_path(@review), method: :post, class: "btn btn-primary" %>
+      <h3><strong>Title :</strong> <%= @review.heading %></h3>
+      <div>
+        <p><strong>Rating: </strong>
+            <% @review.rating.to_i.times do  %>
+              <span><i class="fas fa-star rating-golden"></i></span>
+            <% end %>
+            <% @review.blank_stars.times do %>
+              <span><i class="far fa-star"></i></span>
+            <% end %>
+        </p>
+        <p><strong>Content: </strong><%= @review.content %></p>
+        <p>Reviewed by <%= @review.user.name %>, which belongs to <%= @review.post.name %> under Category <%= @review.post.category.name.titlecase %>.</p>
+      </div>
+
+      <%= link_to "Approve" , status_admin_review_path(@review), method: :post, class: "btn btn-primary" unless @review.approved_id.present? %>
       <%= link_to "Reject" , user_post_review_path(@review.post.user_id, @review.post_id, @review),
-                method: :delete, data: { confirm: "Are You sure?" }, class: "btn btn-danger" %>
+                method: :delete, data: { confirm: "Are You sure?" }, class: "btn btn-danger" unless @review.approved_id.present? %>
     </section>
   </aside>
 </div>

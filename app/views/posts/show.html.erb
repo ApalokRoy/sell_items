@@ -1,96 +1,124 @@
 <% provide(:title, @post.name) %>
-<div class="row">
-  <aside class="col-md-4">
+<div class="row  has-error">
+  <aside class="col-md-10 col-md-offset-2">
     <section class="user_info">
-      <h1>Title: <%= @post.name %></h1>
+      <h3><strong><%= @post.name %></strong></h3>
       <% if @reviews.count > 0 %>
         <p class="rating-golden">
           <span>
             <%= @reviews.average(:rating).round(1) %>
-            <span class="glyphicon glyphicon-star"></span>
+            <span class="fas fa-star"></span>
           </span>
           <span><%= "(#{pluralize(@reviews.count, "Review")})" %></span>
         </p>
       <% end %>
-      <h4>Category: <%= @post.category.name.titlecase %></h4>
-      <h4>Description: <%= @post.description %></h4>
-      <h4>
-        Posted By: <%= @post.user.name %>
-        <% if @post.approved_id.present? %>
-          <%= link_to "Message Me", find_or_create_conversations_path(conversation:
+      
+      <div>
+        <p><strong>Category: </strong><%= @post.category.name.titlecase %></p>
+        <p><strong>Description: </strong><%= @post.description %></p>
+        <p>
+          <strong>Posted By: </strong><%= @post.user.name %>
+          <% if @post.approved_id.present? && (current_user.nil? || @post.user != current_user) %>
+            <%= link_to "Message Me", find_or_create_conversations_path(conversation:
               { receiver_id: @post.user.id, post_id: @post.id }) %>
-        <% end %>
-      </h4>
-      <h4>Contact Information: <%= @post.phone_number %></h4>
-      <h4>City: <%= @post.city %></h4>
-      <%= link_to "Edit Advertisement", edit_user_post_path(@post.user_id, @post) if current_user && current_user.id == @post.user_id%>
-      <br>
-      <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary" if @post.approved_id.present? %>
-      <%= link_to "Approve" , status_admin_post_path(@post), method: :post, class: "btn btn-primary" unless @post.approved_id.present? %>
-      <%= link_to "Reject" , user_post_path(@user, @post),
-                method: :delete, data: { confirm: "Are You sure?" }, class: "btn btn-danger" unless @post.approved_id.present? %>
-
+          <% end %>
+        </p>
+        <p><strong>Contact Information: </strong><%= @post.phone_number %></p>
+        <p><strong>City: </strong><%= @post.city %></p>
+        <%= link_to "Interested", send_mail_user_post_path(@user, @post), class: "btn btn-primary" if @post.approved_id.present? && (current_user.nil? || @post.user != current_user) %>
+      </div>
     </section>
   </aside>
 </div>
 <% if @assets.count > 0 %>
+  <hr>
   <h3>Images (<%= @assets.count %>)</h3>
   <div class="row">
     <% @assets.each do |asset|  %>
-      <div class="col-md-2">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><%= File.basename(asset.image_file_name, ".*") %></h3>
+      <div class="col-sm-2 mb-3">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title"><%= File.basename(asset.image_file_name, ".*") %></h5>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             <%= link_to image_url(asset.image.url) do%>
               <%= image_tag asset.image.url(:thumb) %>
-            <% end %>
-            <% if current_user && current_user.id == @post.user_id %>
-              <hr>
-              <%= link_to "Delete Image", user_post_asset_path(@user, @post, asset.id), 
-                method: :delete, data: { confirm: "Are You sure?" } %>
             <% end %>
           </div>
         </div>
       </div>
     <% end %>
   </div>
+  <hr>
 <% end %>
 <div class="row">
-  <% if logged_in? && @post.approved_id.present? %>
-    <div class="col-md-6 add_review">
+  <% if logged_in? %>
+    <div class="col-md-7 mb-3 add_review">
       <%= render "review_form"%>
     </div>
-  <% elsif @post.approved_id.present? %>
+  <% else %>
     <h3>Login to post your review!</h3>
   <% end %>
 </div>
-<% if @reviews.count > 0 && @post.approved_id.present? %>
-  <h3>Reviews (<%= @reviews.count %>)</h3>
+<% if @reviews.count > 0 %>
   <div class="row">
+    <h3>Reviews (<%= @reviews.count + @pendingreviews.count %>)</h3>
     <%= will_paginate @reviews, param_name: 'reviews_page' %>
     <% @reviews.each do |review|  %>
-      <div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              <%= review.heading %>
-              <% review.rating.to_i.times do  %>
-                <span class="glyphicon glyphicon-star rating-golden"></span>
-              <% end %>
-              <% review.blank_stars.times do %>
-                <span class="glyphicon glyphicon-star-empty"></span>
-              <% end %>
-            </h3>
+      <% unless params[:review].to_i == review.id %>
+        <div class="d-block review">
+          <div class="card mb-3">
+            <div class="card-header">
+              <h5 class="card-title">
+                <%= review.heading %>
+                <% review.rating.to_i.times do  %>
+                  <span><i class="fas fa-star rating-golden"></i></span>
+                <% end %>
+                <% review.blank_stars.times do %>
+                  <span><i class="far fa-star"></i></span>
+                <% end %>
+              </h5>
+            </div>
+            <div class="card-body">
+              <p>Reviewed by <%= review.user.name %></p>
+              <p><%= review.content %></p>
+            </div>
+            <% if review.user == current_user %>
+              <div class="card-footer">
+                <%= link_to "Edit Review", edit_user_post_review_path(@post.user, @post, review) %>
+              </div>
+            <% end %>
           </div>
-          <div class="panel-body">
-            <p>Reviewed by <%= review.user.name %></p>
-            <p><%= review.content %></p>
+        </div>
+      <% end %>
+    <% end %>
+    <%= will_paginate @reviews, param_name: 'reviews_page' %>
+    <% @pendingreviews.each do |pending| %>
+      <div class="d-block review">
+        <div class="card mb-3">
+          <div class="card-header">
+            <h5 class="card-title">
+              <%= pending.heading %>
+              <% pending.rating.to_i.times do  %>
+                <span><i class="fas fa-star rating-golden"></i></span>
+              <% end %>
+              <% pending.blank_stars.times do %>
+                <span><i class="far fa-star"></i></span>
+              <% end %>
+              <span class="badge badge-warning">Pending</span>
+            </h5>
           </div>
+          <div class="card-body">
+            <p>Reviewed by <%= pending.user.name %></p>
+            <p><%= pending.content %></p>
+          </div>
+          <% if pending.user == current_user %>
+            <div class="card-footer">
+              <%= link_to "Edit Review", edit_user_post_review_path(@post.user, @post, pending) %>
+            </div>
+          <% end %>
         </div>
       </div>
     <% end %>
-    <%= will_paginate @reviews, param_name: 'reviews_page' %>
   </div>
 <% end %>

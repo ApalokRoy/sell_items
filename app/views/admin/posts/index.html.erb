@@ -1,0 +1,27 @@
+<% provide(:title, "Advertisements") %>
+<div>
+  <h1>All Advertisements</h1>
+  <div>
+    <table class="table table-striped">
+      <tr>
+        <td><h4>Title</h4></td>
+        <td><h4>Category</h4></td>
+        <td><h4>Posted By</h4></td>
+        <td><h4>Status</h4></td>
+        <td colspan=3 class="text-center"><h4>Links</h4></td>
+      <tr>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= post.name %></td>
+          <td><%= post.category.name.titlecase %></td>
+          <td><%= post.user.name %></td>
+          <td><%= post.approved_id.nil? ? "Pending" : "Approved" %></td>
+          <td><%= link_to "Show" , admin_post_path(post) %></td>
+          <td><%= link_to "Approve" , status_admin_post_path(post), method: :post if post.approved_id.nil? %></td>
+          <td><%= link_to "Reject" , user_post_path(post.user_id, post),
+                  method: :delete, data: { confirm: "Are You sure?" } if post.approved_id.nil? %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

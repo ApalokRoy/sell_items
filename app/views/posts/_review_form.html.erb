@@ -1,35 +1,60 @@
-<%= form_for [@user, @post, @review], url: user_post_reviews_path(@user, @post), remote: true do |f| %>
-  <%= render 'shared/error_messages', object: @review %>
-  
-  <div class="form-inline">
-    <%= f.label :rating %><br />
-    <div class="radio inline">
-      <%= f.radio_button :rating, 1 %>
-      <%= f.label :rating, "Worst" %>
-    </div>
-    <div class="radio inline">
-      <%= f.radio_button :rating, 2 %>
-      <%= f.label :rating, "Poor" %>
-    </div>
-    <div class="radio inline">
-      <%= f.radio_button :rating, 3 %>
-      <%= f.label :rating, "Average" %>
-    </div>
-    <div class="radio inline">
-      <%= f.radio_button :rating, 4 %>
-      <%= f.label :rating, "Good" %>
-    </div>
-    <div class="radio inline">
-      <%= f.radio_button :rating, 5 %>
-      <%= f.label :rating, "Best" %>
-    </div>
-  </div>        
+<%= form_for [@user, @post, @review], url: @review.new_record? ? user_post_reviews_path(@user, @post) : user_post_review_path(@user, @post, @review), remote: true do |f| %>
+  <div class="form-group row">
+    <%= render 'shared/error_messages', object: @review %>
+  </div>
 
-  <%= f.label :heading, "Review Title" %>
-  <%= f.text_field :heading, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :rating, "Rating :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating, 1, class: "form-check-input" %>
+        <%= f.label :rating, "Worst", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating, 2, class: "form-check-input" %>
+        <%= f.label :rating, "Poor", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating, 3, class: "form-check-input" %>
+        <%= f.label :rating, "Average", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating, 4, class: "form-check-input" %>
+        <%= f.label :rating, "Good", class:"form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :rating, 5, class: "form-check-input" %>
+        <%= f.label :rating, "Best", class: "form-check-label" %>
+      </div>
+    </div>
+  </div>
 
-  <%= f.label :content, "Comment" %>
-  <%= f.text_area :content, class: "form-control" %>
-  <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
-  <%= f.submit "Post Review", class: "btn btn-primary" %>
+  <div class="form-group row">  
+    <%= f.label :heading, "Review Heading :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :heading, class: "form-control", placeholder: "Enter Heading" %>
+    </div>
+  </div>
+
+  <div class="form-group row">  
+    <%= f.label :content, "Comment :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.text_area :content, class: "form-control", placeholder: "Enter Comment" %>
+    </div>
+  </div>
+
+  <div class="form-group row">  
+    <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-10 offset-sm-2">
+      <% if @review.new_record? %>
+        <%= f.submit "Post Review", class: "btn btn-primary" %>
+      <% else %>
+        <%= f.submit "Update Review", class: "btn btn-primary update-button" %>
+        <%= link_to "Cancel", user_post_path(@user, @post), class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
 <% end %>

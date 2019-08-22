@@ -1,0 +1,27 @@
+<% provide(:title, "Reviews") %>
+<div>
+  <h1>All Reviews</h1>
+  <div>
+    <table class="table table-striped">
+      <tr>
+        <td><h4>Heading</h4></td>
+        <td><h4>Item Name</h4></td>
+        <td><h4>Posted By</h4></td>
+        <td><h4>Status</h4></td>
+        <td colspan=3 class="text-center"><h4>Links</h4></td>
+      <tr>
+      <% @reviews.each do |review| %>
+        <tr>
+          <td><%= review.heading %></td>
+          <td><%= review.post.name %></td>
+          <td><%= review.user.name %></td>
+          <td><%= review.approved_id.nil? ? "Pending" : "Approved" %></td>
+          <td><%= link_to "Show" , admin_review_path(review) %></td>
+          <td><%= link_to "Approve" , status_admin_review_path(review), method: :post if review.approved_id.nil? %></td>
+          <td><%= link_to "Reject" , user_post_review_path(review.post.user_id, review.post_id, review),
+                  method: :delete, data: { confirm: "Are You sure?" } if review.approved_id.nil? %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

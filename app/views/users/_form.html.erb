@@ -1,17 +1,40 @@
 <%= form_for(@user) do |f| %>
+  <div class="form-group row">
     <%= render 'shared/error_messages', object: @user %>
+  </div>
     
-    <%= f.label :name %>
-    <%= f.text_field :name, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :name, "Name :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-8">
+      <%= f.text_field :name, class: "form-control", placeholder: "Enter Name" %>
+    </div>
+  </div>
 
-    <%= f.label :email %>
-    <%= f.email_field :email, class: 'form-control', disabled: (true unless @user.new_record?) %>
+  <div class="form-group row">  
+    <%= f.label :email, "Email :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-8">
+      <%= f.email_field :email, class: "form-control", placeholder: "Enter Email", disabled: (true unless @user.new_record?) %>
+    </div>
+  </div>
 
-    <%= f.label :password %>
-    <%= f.password_field :password, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :password, "Password :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-8">
+      <%= f.password_field :password, class: "form-control", placeholder: "Enter Password" %>
+    </div>
+  </div>
 
-    <%= f.label :password_confirmation, "Confirmation" %>
-    <%= f.password_field :password_confirmation, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :password_confirmation, "Retype Password :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-8">
+      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Re-enter Password" %>
+    </div>
+  </div>
 
-    <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <div class="form-group row">  
+    <div class="col-sm-8 offset-sm-2">
+      <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+    </div>
+  </div>
+
 <% end %>

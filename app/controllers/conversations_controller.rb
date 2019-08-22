@@ -7,7 +7,7 @@ class ConversationsController < ApplicationController
 
   def find_or_create
     if params[:conversation][:receiver_id] == current_user.id.to_s
-      flash[:info] = "This advertisement is posted by you!"
+      flash[:warning] = "This advertisement is posted by you!"
       redirect_to user_post_path(params[:conversation][:receiver_id], params[:conversation][:post_id]) 
     else
       if Conversation.between(current_user.id, params[:conversation][:receiver_id], params[:conversation][:post_id]).present?

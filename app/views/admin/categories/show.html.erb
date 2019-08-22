@@ -1,0 +1,19 @@
+<% provide(:title, @category.name.titlecase) %>
+<div class="row">
+  <aside class="col-md-10 col-md-offset-2">
+    <section class="user_info">
+      <h1><strong><%= @category.name.titlecase %></strong></h1>
+      <p>
+        <strong>Number of Approved Advertisements: </strong>
+        <%= @category.posts.approved.count %>
+      </p>
+      <p>
+        <strong>Number of Pending Advertisements: </strong>
+        <%= @category.posts.yet_to_be_approved.count %>
+      </p>     
+      <%= link_to "Edit Category", edit_admin_category_path(@category) %>
+      <%= link_to "Delete Category", admin_category_path(@category),
+                method: :delete, data: { confirm: "Are You sure?" } %>
+    </section>
+  </aside>
+</div>

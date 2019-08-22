@@ -1,48 +1,37 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-dark">
   <div class="container">
     <%= link_to "Buy & Sell", root_path, id: "logo" %>
-    <nav>
-      <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Help", help_path %></li>
-        <li><%= link_to "About", about_path %></li>
-        <li><%= link_to "Contact", contact_path %></li>
-        
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav navbar-nav ml-auto">    
         <% if logged_in? %>
           <% if current_user.admin? %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <%= "Admin Panel" %>
-                <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "Create Category", new_admin_category_path %></li>
-                <li><%= link_to "Post Approval", pending_admin_posts_path %></li>
-                <li><%= link_to "Reviews Approval" , pending_admin_reviews_path %></li>
-              </ul>
-            </li>
+            <li class="nav-item"><%= link_to "Admin Panel", admin_home_path, class: "nav-link" %></li>
           <% end %>
 
-          <li><%= link_to "Conversations", conversations_path %></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <li class="nav-item"><%= link_to "My Advertisements", my_index_user_posts_path(current_user), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "Conversations", conversations_path, class: "nav-link" %></li>
+          <li class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <%= current_user.name %>
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Profile", current_user %></li>
-              <li><%= link_to "Update Information", edit_user_path(current_user) %></li>
-              <li><%= link_to "New Advertisement" , new_user_post_path(current_user) %></li>
-              <li class="divider"></li>
+              <li><%= link_to "Profile", current_user, class: "dropdown-item" %></li>
+              <li><%= link_to "Update Information", edit_user_path(current_user), class: "dropdown-item" %></li>
+              <li class="dropdown-divider"></li>
               <li>
-                <%= link_to "Log out", logout_path, method: :delete %>
+                <%= link_to "Log out", logout_path, method: :delete , class: "dropdown-item"%>
               </li>
             </ul>
           </li>
         <% else %>
-          <li><%= link_to "Log in", login_path %></li>
+          <li class="nav-item"><%= link_to "Log in", login_path, class: "nav-link" %></li>
         <% end %>
-          
       </ul>
-    </nav>
+    </div>
   </div>
-</header>
+</nav>
