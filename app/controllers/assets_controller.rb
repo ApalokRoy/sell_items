@@ -4,6 +4,7 @@ class AssetsController < ApplicationController
 
   def destroy
     Asset.find(params[:id]).destroy
+    flash[:dark] = "Attachment has been deleted Sucessfully!"
     redirect_to user_post_path(@user, @post)
   end
 

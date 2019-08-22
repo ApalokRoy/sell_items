@@ -1,6 +1,19 @@
 <%= form_for [@conversation, @message], remote: true do |f| %>
-  <%= render 'shared/error_messages', object: @message %>
-  <%= f.text_area :message_body, class: "form-control" %>
-  <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
-  <%= f.submit "Send Reply", class: "btn btn-primary" %>
+  <div class="form-group row">
+    <%= render 'shared/error_messages', object: @message %>
+  </div>
+
+  <div class="form-group row">  
+    <%= f.text_area :message_body, class: "form-control", placeholder: "Enter Your Message" %>
+  </div>
+
+  <div class="form-group row">  
+    <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
+  </div>
+  
+  <div class="form-group row">  
+    <div class="col-sm-10">
+      <%= f.submit "Send Reply", class: "btn btn-primary" %>
+    </div>
+  </div>
 <% end %>

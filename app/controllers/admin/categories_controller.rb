@@ -29,18 +29,18 @@ class Admin::CategoriesController < Admin::HomeController
 
   def destroy
     Category.find(params[:id]).destroy
-    flash[:success] = "Category has been deleted Sucessfully!"
+    flash[:dark] = "Category has been deleted Sucessfully!"
     redirect_to admin_categories_path
   end
 
   def show
     @category = Category.find(params[:id])
-    #@posts = @category.posts.approved.paginate(page: params[:posts_page], per_page: 20)
   end
 
   def index
     @categories = Category.ordering.paginate(page: params[:categories_page], per_page: 20)
   end
+
   private
     # Permiseble parameters.
     def category_params

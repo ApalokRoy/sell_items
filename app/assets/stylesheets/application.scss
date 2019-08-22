@@ -1,30 +1,10 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- */
- @import "bootstrap";
-
-/* mixins, variables, etc. */
-
-@mixin box_sizing {
-  -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:         border-box;
-}
-
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 /* universal */
 body {
-  padding-top: 60px;
+  padding-top: 80px;
 }
   
 section {
@@ -81,5 +61,55 @@ p {
   &:hover {
     color: #00f;
     text-decoration: none;
+  }
+}
+
+/* Rating */
+.rating-golden
+{
+  color: gold;
+  span {
+    display: inline;
+  }
+}
+
+.review 
+{
+  width: 100%;
+}
+
+/* Users index */
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 5px 0;
+  } 
+}
+
+/* Messages */
+.message-box
+{
+  overflow: hidden;
+  small {
+    color: black;
+    font-size: 70%;
+  }
+}
+
+/* login form */
+.social-login{
+  margin-top: 15px;
+  text-align: center
+}
+
+/* Errors */
+#error_explanation {
+  color: #f00;
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
   }
 }

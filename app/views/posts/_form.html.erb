@@ -1,48 +1,84 @@
 <%= form_for([@user, @post], html:{ multipart: true }) do |f| %>
-  <%= render 'shared/error_messages', object: @post %>
+  <div class="form-group row">
+    <%= render 'shared/error_messages', object: @post %>
+  </div>
 
-  <%= f.label :name %>
-  <%= f.text_field :name, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :name, "Name :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :name, class: "form-control", placeholder: "Enter Name" %>
+    </div>
+  </div>
 
-  <%= f.label :category_id %>
-  <%= f.select :category_id, options_for_select(Category.all.collect{|c| [c.name.titleize, c.id]}),
-      prompt: 'Select Category', class: 'form-control dropdown' %>
+  <div class="form-group row">  
+    <%= f.label :category_id, "Category :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.select :category_id, options_for_select(Category.all.collect{|c| [c.name.titleize, c.id]}),
+      prompt: 'Select Category', class: "form-control" %>
+    </div>
+  </div>
 
-  <%= f.label :description %>
-  <%= f.text_area :description, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :description, "Description :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.text_area :description, class: "form-control", placeholder: "Enter Description" %>
+    </div>
+  </div>
 
-  <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>  
+  <div class="form-group row">  
+    <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>  
+  </div>
 
-  <%= f.label :phone_number %>
-  <%= f.text_field :phone_number, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :phone_number, "Phone Number :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :phone_number, class: "form-control", placeholder: "Enter Phone Number" %>
+    </div>
+  </div>
 
-  <%= f.label :city %>
-  <%= f.text_field :city, class: 'form-control' %>
+  <div class="form-group row">  
+    <%= f.label :city, "City :", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :city, class: "form-control", placeholder: "Enter City" %>
+    </div>
+  </div>
 
   <%= f.fields_for :asset do |t| %>
-    <%= t.label :image %>
-    <% if @post.assets.size > 1 %>
-      <div class="row">
-        <% @post.assets.each do |asset| %>
-          <div class="col-md-4">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title"><%= File.basename(asset.image_file_name, ".*") %></h3>
-              </div>
-              <div class="panel-body">
-                <%= link_to image_url(asset.image.url) do%>
-                  <%= image_tag asset.image.url(:thumb) %>
-                <% end %>
+    <div class="form-group row">  
+      <%= t.label :image, "Image :", class: "col-sm-2 col-form-label" %>
+      <% if @post.assets.size > 1 %>
+        <div class="col-sm-10">
+          <% @post.assets.each do |asset| %>
+            <div class="col-sm-3 mb-3">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title"><%= File.basename(asset.image_file_name, ".*") %></h3>
+                </div>
+                <div class="card-body">
+                  <%= link_to image_url(asset.image.url) do%>
+                    <%= image_tag asset.image.url(:thumb) %>
+                  <% end %>
+                </div>
               </div>
             </div>
-          </div>
-        <% end %>
-      </div>
-      <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
-    <% else %>
-      <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true %>
-    <% end %>
+          <% end %>
+        </div>
+        <div class="col-sm-10">
+          <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true,  class: "form-control-file" %>
+        </div>
+      <% else %>
+        <div class="col-sm-10">
+          <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true,  class: "form-control-file" %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 
-  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <div class="form-group row">
+    <div class="col-sm-10 offset-sm-2">
+      <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+      <%= link_to "Cancel", my_index_user_posts_path(current_user), class: "btn btn-danger" %>
+    </div>
+  </div>
+
 <% end %>

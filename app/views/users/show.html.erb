@@ -1,9 +1,27 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="col-md-8 col-md-offset-2">
+  <aside class="col-md-10 col-md-offset-2">
     <section class="user_info">
       <h1>Name: <%= @user.name %></h1>
-      <h4>Email ID: <%= @user.email %></h4>
+      <p><strong>Email ID: </strong><%= @user.email %></p>
+      <p>
+        <strong>Number of Approved Advertisements: </strong>
+        <%= @user.posts.approved.count %>
+      </p>
+      <p>
+        <strong>Number of Pending Advertisements: </strong>
+        <%= @user.posts.yet_to_be_approved.count %>
+      </p>     
+      <p>
+        <strong>Number of Approved Reviews: </strong>
+        <%= @user.reviews.approved.count %>
+      </p>
+      <p>
+        <strong>Number of Pending Reviews: </strong>
+        <%= @user.reviews.yet_to_be_approved.count %>
+      </p>     
+
+      <%= link_to "Update Profile Information", edit_user_path(@user) %>
     </section>
   </aside>
 </div>

@@ -2,10 +2,12 @@
 <div>
   <h1>List of Categories</h1>
   <div>
+  <%= link_to "Create Category", new_admin_category_path, class: "d-block text-right mb-3" %>
+
   <table class="table table-striped">
     <tr>
       <td><h4>Title</h4></td>
-      <td colspan=3><h4>Links</h4></td>
+      <td colspan=3 class="text-center"><h4>Links</h4></td>
     <tr>
     <% @categories.each do |category| %>
       <tr>
@@ -17,5 +19,4 @@
       </tr>
     <% end %>
   </table>
-  <%= link_to "Create Category", new_admin_category_path %>
 </div>

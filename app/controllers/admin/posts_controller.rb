@@ -8,7 +8,7 @@ class Admin::PostsController < Admin::HomeController
   def status
     @post = Post.find(params[:id])
     @post.update_attribute(:approved_id, current_user.id)
-    flash[:success] = "Advertisement is approved!"
+    flash[:info] = "Advertisement is approved!"
     redirect_to admin_home_path
   end
 

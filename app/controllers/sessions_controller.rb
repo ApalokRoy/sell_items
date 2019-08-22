@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       log_in user
+      flash.now[:primary] = 'You have been successfully logged in!'
       redirect_back_or root_url
     else
       flash.now[:danger] = 'Invalid email or password'
@@ -21,11 +22,13 @@ class SessionsController < ApplicationController
     session[:omniauth] = auth.expect('extra')
     user = User.sign_in_using_omniauth(auth)
     log_in user
+    flash.now[:primary] = 'You have been successfully logged in!'
     redirect_back_or root_url
   end
 
   def destroy
     log_out
+    flash.now[:secondary] = 'You have been successfully logged out!'
     redirect_to root_url
   end
 

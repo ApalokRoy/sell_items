@@ -33,6 +33,9 @@ gem 'mini_racer'
 gem 'bootstrap', '~> 4.3', '>= 4.3.1'
 gem 'sprockets-rails', '~> 3.2', '>= 3.2.1'
 
+# Use Font-Awesome for Rating
+gem 'font-awesome-sass'
+
 # Use Bcrypt for Password
 gem 'bcrypt', '~> 3.1', '>= 3.1.13'
 

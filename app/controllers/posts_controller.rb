@@ -54,7 +54,7 @@ class PostsController < ApplicationController
     if logged_in_user
       redirect_to root_url unless current_user?(@user) || current_user.admin?     
       Post.find(params[:id]).destroy
-      flash[:success] = "Advertisement has been deleted Sucessfully!"
+      flash[:dark] = "Advertisement has been deleted Sucessfully!"
       
       if request.referer.include?("admin")
         redirect_to admin_home_path
@@ -67,10 +67,10 @@ class PostsController < ApplicationController
   def sendmail
     if logged_in_user
       if @post.user == current_user
-        flash[:info] = "You can't show interest on your own advertisement!"
+        flash[:warning] = "You can't show interest on your own advertisement!"
       else
         PostMailer.send_email(@post, current_user).deliver_later
-        flash[:success] = "Your responce is saved successfully!"
+        flash[:primary] = "Your responce is saved successfully!"
       end  
       redirect_to user_post_path(@user, @post)
     end
@@ -79,6 +79,10 @@ class PostsController < ApplicationController
   def search
     if params[:search_posts].presence
       @posts = Post.search_approved(params[:search_posts])
+      if @posts.empty?
+        redirect_to root_url
+        flash[:warning] = "Sorry, no advertisements matches your request."
+      end
     end
   end
 

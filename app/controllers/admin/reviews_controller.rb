@@ -8,7 +8,7 @@ class Admin::ReviewsController < Admin::HomeController
   def status
     @review = Review.find(params[:id])
     @review.update_attribute(:approved_id, current_user.id)
-    flash[:success] = "Review is approved!"
+    flash[:info] = "Review is approved!"
     redirect_to admin_home_path
   end
 

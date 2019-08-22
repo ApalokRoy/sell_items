@@ -12,7 +12,7 @@ class ReviewsController < ApplicationController
     if @post.approved_id.present? && @review.save
       flash[:success] = "Review is uploaded for approval!"
       respond_to do |format|
-        format.js { render file: "posts/create_success.js.erb" }
+        format.js { redirect_to user_post_path(@user, @post) }
       end
     else
       respond_to do |format|
@@ -27,7 +27,6 @@ class ReviewsController < ApplicationController
       @review.update_attribute(:approved_id, nil)
       flash[:success] = "Review is updated for approval!"
       respond_to do |format|
-
         format.js { redirect_to user_post_path(@user, @post) }
       end
     else
@@ -41,7 +40,7 @@ class ReviewsController < ApplicationController
   def destroy
     redirect_to root_url unless current_user.admin?
     Review.find(params[:id]).destroy
-    flash[:success] = "Review has been deleted Sucessfully!"
+    flash[:dark] = "Review has been deleted Sucessfully!"
     redirect_to admin_home_path
   end
 

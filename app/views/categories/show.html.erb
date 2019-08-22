@@ -1,23 +1,21 @@
 <% provide(:title, @category.name.titlecase) %>
 <div class="row">
-  <aside class="col-md-8 col-md-offset-2">
+  <aside class="col">
     <section class="user_info">
-      <p>
-        <span><h1><%= @category.name.titlecase %></h1></span>
-      </p>
-
+      <h1><strong><%= @category.name.titlecase %></strong></h1>
+      
       <% if @posts.count > 0 %>
-        <h1><%="We have #{pluralize(@posts.count, "advertisement")} under this category."%></h1>
+        <h3><%="We have #{pluralize(@posts.count, "advertisement")} under this category."%></h3>
         <hr>
         <div class="row">
           <%= will_paginate @posts, param_name: 'posts_page' %>
             <% @posts.each do |post| %>
-              <div class="col-md-3">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title"><%= post.name.titlecase %></h3>
+              <div class="col-sm-3 mb-3">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title"><%= post.name.titlecase %></h5>
                   </div>
-                  <div class="panel-body">
+                  <div class="card-body">
                     <%= link_to "Show Advertisement", user_post_path(post.user_id, post.id) %>
                   </div>
                 </div>
