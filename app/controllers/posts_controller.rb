@@ -47,7 +47,7 @@ class PostsController < ApplicationController
     @assets = @post.assets
     @review = params[:review].present? ? Review.find(params[:review]) : @post.reviews.new
     @reviews = @post.reviews.includes(:user).approved.paginate(page: params[:reviews_page], per_page: 20)
-    @pendingreviews = @post.reviews.includes(:user).pending_to_be_approved(current_user.id)
+    @pendingreviews = @post.reviews.includes(:user).pending_to_be_approved(current_user.id) if logged_in?
   end
 
   def destroy
