@@ -14,7 +14,7 @@
     <%= f.label :category_id, "Category :", class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
       <%= f.select :category_id, options_for_select(Category.all.collect{|c| [c.name.titleize, c.id]}),
-      prompt: 'Select Category', class: "form-control" %>
+      { prompt: 'Select Category' }, class: "form-control" %>
     </div>
   </div>
 
@@ -48,20 +48,22 @@
       <%= t.label :image, "Image :", class: "col-sm-2 col-form-label" %>
       <% if @post.assets.size > 1 %>
         <div class="col-sm-10">
-          <% @post.assets.each do |asset| %>
-            <div class="col-sm-3 mb-3">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title"><%= File.basename(asset.image_file_name, ".*") %></h3>
-                </div>
-                <div class="card-body">
-                  <%= link_to image_url(asset.image.url) do%>
-                    <%= image_tag asset.image.url(:thumb) %>
-                  <% end %>
+          <div class="row">
+            <% @post.assets.each do |asset| %>
+              <div class="col-sm-3 mb-3">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title"><%= File.basename(asset.image_file_name, ".*") %></h3>
+                  </div>
+                  <div class="card-body">
+                    <%= link_to image_url(asset.image.url) do%>
+                      <%= image_tag asset.image.url(:thumb) %>
+                    <% end %>
+                  </div>
                 </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
         <div class="col-sm-10">
           <%= t.file_field :image, accept: 'image/png,image/jpeg,image/gif', multiple: true,  class: "form-control-file" %>
