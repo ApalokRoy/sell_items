@@ -62,9 +62,6 @@
 </div>
 <% if @reviews.count > 0  || (current_user && @pendingreviews.count > 0) %>
   <div class="row">
-    <% review = @reviews.present? ? @reviews.count : 0 %>
-    <% pendingreview = @pendingreviews.present? ? @pendingreviews.count : 0 %>
-    <h3>Reviews (<%= review + pendingreview %>)</h3>
     <% if @reviews.present? %>    
       <%= will_paginate @reviews, param_name: 'reviews_page' %>
       <% @reviews.each do |review|  %>
