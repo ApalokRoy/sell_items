@@ -60,9 +60,11 @@
     <h3>Login to post your review!</h3>
   <% end %>
 </div>
-<% if @reviews.count > 0  || @pendingreviews.count > 0 %>
+<% if @reviews.count > 0  || (current_user && @pendingreviews.count > 0) %>
   <div class="row">
-    <h3>Reviews (<%= @pendingreviews.present? ? @reviews.count + @pendingreviews.count : @reviews.count %>)</h3>
+    <% review = @reviews.present? ? @reviews.count : 0 %>
+    <% prendingreview = @pendingreviews.present? ? @pendingreviews.count : 0 %>
+    <h3>Reviews (<%= review + prendingreview %>)</h3>
     <% if @reviews.present? %>    
       <%= will_paginate @reviews, param_name: 'reviews_page' %>
       <% @reviews.each do |review|  %>
