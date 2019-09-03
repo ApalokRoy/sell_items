@@ -18,7 +18,7 @@ class PostsController < ApplicationController
       end
 
       flash[:success] = "#{@post.name} is Created Successfully!"
-      redirect_to user_post_path(@user, @post)
+      redirect_to my_show_user_post_path(@user, @post)
     else
       render 'new'
     end
@@ -37,7 +37,7 @@ class PostsController < ApplicationController
       end
 
       flash[:success] = "#{@post.name} is Updated Successfully!"
-      redirect_to user_post_path(@user, @post)
+      redirect_to my_show_user_post_path(@user, @post)
     else
       render 'edit'
     end
