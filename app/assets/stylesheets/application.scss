@@ -59,9 +59,13 @@ p {
   letter-spacing: -1px;
   padding-top: 9px;
   &:hover {
-    color: #00f;
+    color: gold;
     text-decoration: none;
   }
+}
+
+.navbar-light .text-blue .nav-link {
+  color: blue;
 }
 
 /* Rating */
@@ -113,3 +117,6 @@ p {
     margin: 0 0 18px 0;
   }
 }
+
+/* header */
+

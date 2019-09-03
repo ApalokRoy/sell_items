@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
     @message = @conversation.messages.new(message_params)
     if @message.save
       respond_to do |format|
-        format.js { render file: "messages/create_success.js.erb" }
+        format.js { redirect_to conversation_messages_path(@conversation) }
       end
     else
       respond_to do |format|
